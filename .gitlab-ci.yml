@@ -1,0 +1,22 @@
+image: registry.gitlab.com/demsking/codelinex:ubuntu
+
+stages:
+  - build
+
+code quality:
+  stage: build
+  image: alpine
+  script:
+    - apk add --no-cache curl make python cppcheck
+    - make lint
+
+build:
+  stage: build
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake ..
+    - make pack
+  artifacts:
+    paths:
+      - '*.tar.gz'

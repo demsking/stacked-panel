@@ -1,0 +1,79 @@
+$stacked-panel-color = #b3bccc
+$stacked-panel-color-selected = #fff
+$stacked-panel-background-color = #21252b
+$stacked-panel-background-color-hover = #282c34
+$stacked-panel-background-color-selected = #282c34
+$stacked-panel-border-color = #000
+
+apply-theme()
+  [StackedPanel]
+    background-color: $stacked-panel-background-color
+
+    &[focused=true]
+      background-color: $stacked-panel-background-color
+      background-color: red
+
+  [StackedPanelBar]
+    background-color: $stacked-panel-background-color
+
+    [StackedPanelBarCombobox]
+      /**
+       * Customizing QComboBox
+       * @see https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qcombobox
+       */
+      min-width: 100%
+      color: $stacked-panel-color
+      background-color: transparent
+      border: none
+
+      &::drop-down
+        width: 15px
+        subcontrol-origin: padding
+        subcontrol-position: top right
+        border: 1px solid transparent
+
+      &::down-arrow
+        image: url(themes/arrow-drop-down-black-24px.svg)
+
+      QAbstractItemView
+        border: none
+        color: $stacked-panel-color
+        background-color: $stacked-panel-background-color
+        selection-background-color: $stacked-panel-background-color-selected
+
+    [StackedPanelBarToolboxContainer]
+      //
+
+    [StackedPanelToolBox]
+      //
+
+    [StackedPanelBarCombobox]
+    [StackedPanelToolBoxButton]
+      padding: 7px 10px
+
+      &:hover
+        color: $stacked-panel-color-selected
+        background-color: $stacked-panel-background-color-hover
+
+    [StackedPanelToolBoxButton]
+      border: none
+      color: $stacked-panel-color
+
+      &:disabled
+        color: alpha($stacked-panel-color, .5)
+
+      &[selected=true]
+        background-color: $stacked-panel-background-color-selected
+
+  [StackedPanelContainer]
+    background-color: $stacked-panel-background-color-selected
+    border: 0
+    padding: 0
+    margin: 0
+
+  [StackedPanelWidget]
+    border-color: transparent
+    background-color: transparent
+
+    & > *
+      color: $stacked-panel-color
