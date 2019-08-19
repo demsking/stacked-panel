@@ -73,7 +73,10 @@ install(FILES ${HEADERS} DESTINATION include/hpx-stacked-panel)
 install(FILES HPXStackedPanelConfig.cmake DESTINATION lib/HPXStackedPanel)
 
 # Theme task
-string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+if(CMAKE_BUILD_TYPE)
+  string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+endif()
+
 add_custom_target(themes
   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/themes
   COMMAND ${MAKE} -C ${PROJECT_SOURCE_DIR} themes ENV=${BUILD_TYPE}

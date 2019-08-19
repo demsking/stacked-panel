@@ -27,11 +27,11 @@
 #include <QPushButton>
 #include <QFileSystemWatcher>
 
-#include "../../src/components/StackedPanel.h"
-#include "../../src/components/StackedPanelWidget.h"
-#include "../../src/components/StackedPanelToolbox.h"
-#include "../../src/models/StackedPanelModel.h"
-#include "../../src/models/StackedPanelItem.h"
+#include "components/StackedPanel.h"
+#include "components/StackedPanelWidget.h"
+#include "components/StackedPanelToolbox.h"
+#include "models/StackedPanelModel.h"
+#include "models/StackedPanelItem.h"
 
 class Widget: public HPX::StackedPanelWidget {
   QLabel _label;
