@@ -32,7 +32,6 @@ namespace HPX {
     public:
       enum Role {
         NameRole = Qt::UserRole + 9099,
-        ToolboxRole,
         WidgetRole
       };
 
@@ -42,9 +41,6 @@ namespace HPX {
 
       QString name() const;
       void setName(const QString&);
-
-      StackedPanelToolbox* toolbox() const;
-      void setToolbox(StackedPanelToolbox*);
 
       StackedPanelWidget* widget() const;
       void setWidget(StackedPanelWidget*);

@@ -21,16 +21,21 @@
 #define HPXSTACKEDPANEL_COMPONENTS_TABVIEWWIDGET_H_
 
 #include <QWidget>
-
 #include "global.h"  // NOLINT(build/include)
 
 namespace HPX {
+  class StackedPanelToolbox;
+
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QWidget {
     Q_OBJECT
 
+    StackedPanelToolbox* _toolbox = nullptr;
+
     public:
       explicit StackedPanelWidget(QWidget* parent = nullptr);
+      ~StackedPanelWidget();
 
+      StackedPanelToolbox* toolbox();
       virtual void setFocus();
 
     signals:

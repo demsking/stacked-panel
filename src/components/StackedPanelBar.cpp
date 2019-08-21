@@ -101,12 +101,12 @@ namespace HPX {
 
   void StackedPanelBar::insert(const QModelIndex& index, int pos) {
     const QString name = _model->name(index);
-    StackedPanelToolbox* toolbox = _model->toolbox(index);
+    StackedPanelWidget* widget = _model->widget(index);
 
     _panelCombobox->insertItem(pos, name);
 
-    if (toolbox) {
-      _stackedToolbox->insertWidget(pos, toolbox);
+    if (widget) {
+      _stackedToolbox->insertWidget(pos, widget->toolbox());
     } else {
       auto widget = new QWidget(this);
 

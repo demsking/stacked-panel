@@ -26,7 +26,6 @@ namespace HPX {
   StackedPanelModel::StackedPanelModel(QObject* parent): QStandardItemModel(parent) {
     setItemRoleNames({
       { StackedPanelItem::NameRole, "name" },
-      { StackedPanelItem::ToolboxRole, "toolbox" },
       { StackedPanelItem::WidgetRole, "widget" }
     });
   }
@@ -45,14 +44,6 @@ namespace HPX {
 
   QString StackedPanelModel::name(const QModelIndex& index) const {
     return data(index, StackedPanelItem::NameRole).value<QString>();
-  }
-
-  StackedPanelToolbox* StackedPanelModel::toolbox(int pos) const {
-    return toolbox(index(pos, 0));
-  }
-
-  StackedPanelToolbox* StackedPanelModel::toolbox(const QModelIndex& index) const {
-    return data(index, StackedPanelItem::ToolboxRole).value<StackedPanelToolbox*>();
   }
 
   StackedPanelWidget* StackedPanelModel::widget(int pos) const {

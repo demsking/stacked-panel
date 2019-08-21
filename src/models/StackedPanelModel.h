@@ -41,9 +41,6 @@ namespace HPX {
       QString name(int pos) const;
       QString name(const QModelIndex&) const;
 
-      StackedPanelToolbox* toolbox(int pos) const;
-      StackedPanelToolbox* toolbox(const QModelIndex&) const;
-
       StackedPanelWidget* widget(int pos) const;
       StackedPanelWidget* widget(const QModelIndex&) const;
 

@@ -20,10 +20,21 @@
 #include "components/StackedPanelWidget.h"
 
 #include <QVariant> // required for setProperty
+#include "components/StackedPanelToolbox.h"
 
 namespace HPX {
   StackedPanelWidget::StackedPanelWidget(QWidget* parent): QWidget(parent) {
     setProperty("StackedPanelWidget", true);
+
+    _toolbox = new StackedPanelToolbox(this);
+  }
+
+  StackedPanelWidget::~StackedPanelWidget() {
+    delete _toolbox;
+  }
+
+  StackedPanelToolbox* StackedPanelWidget::toolbox() {
+    return _toolbox;
   }
 
   void StackedPanelWidget::setFocus() {

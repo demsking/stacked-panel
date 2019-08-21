@@ -36,14 +36,6 @@ namespace HPX {
     setData(value, Role::NameRole);
   }
 
-  StackedPanelToolbox* StackedPanelItem::toolbox() const {
-    return data(Role::ToolboxRole).value<StackedPanelToolbox*>();
-  }
-
-  void StackedPanelItem::setToolbox(StackedPanelToolbox* value) {
-    setData(QVariant::fromValue(value), Role::ToolboxRole);
-  }
-
   StackedPanelWidget* StackedPanelItem::widget() const {
     return data(Role::WidgetRole).value<StackedPanelWidget*>();
   }

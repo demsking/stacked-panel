@@ -33,11 +33,11 @@
 #include "models/StackedPanelModel.h"
 #include "models/StackedPanelItem.h"
 
-class Widget: public HPX::StackedPanelWidget {
+class PanelWidget: public HPX::StackedPanelWidget {
   QLabel _label;
 
   public:
-    explicit Widget(const QString& label): _label(label, this) {}
+    explicit PanelWidget(const QString& label): _label(label, this) {}
 };
 
 MainWindow::MainWindow(const char* theme): QMainWindow() {
@@ -62,18 +62,17 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
 
   for (int i = 0; i < 5; i++) {
     const QString label = QString("Item %1").arg(i);
-    HPX::StackedPanelToolbox* toolbox = new HPX::StackedPanelToolbox();
-    HPX::StackedPanelItem* item = new HPX::StackedPanelItem();
+    auto item = new HPX::StackedPanelItem();
+    auto widget = new PanelWidget(label);
+    auto toolbox = widget->toolbox();
 
     item->setName(label);
-    item->setWidget(new Widget(label));
+    item->setWidget(widget);
 
     if (i) {
       for (int j = 0; j < i; j++) {
         toolbox->addButton(new QPushButton(QString("B%1").arg(j)));
       }
-
-      item->setToolbox(toolbox);
     }
 
     _model->add(item);
