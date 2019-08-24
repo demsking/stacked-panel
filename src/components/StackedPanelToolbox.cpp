@@ -61,7 +61,7 @@ namespace HPX {
   void StackedPanelToolbox::addButton(QAbstractButton* button) {
     button->setProperty("StackedPanelToolBoxButton", true);
 
-    _layout->addWidget(button);
+    _layout->insertWidget(0, button);
   }
 
   void StackedPanelToolbox::removeButton(QAbstractButton* button) {
