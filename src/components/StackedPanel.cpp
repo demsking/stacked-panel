@@ -102,9 +102,7 @@ namespace HPX {
   }
 
   void StackedPanel::setCurrentIndex(int index) {
-    _currentIndex = index;
-
-    _stackedWidget->setCurrentIndex(index);
+    _panelBar->setCurrentIndex(index);
   }
 
   void StackedPanel::setCurrentWidget(StackedPanelWidget* widget) {
@@ -141,7 +139,7 @@ namespace HPX {
     }
 
     // select the current stacked widget
-    setCurrentIndex(index);
+    _currentIndex = index;
 
     // emit the focusIn signal to the current widget
     if (!_freezed) {
