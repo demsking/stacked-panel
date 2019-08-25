@@ -92,12 +92,7 @@ namespace HPX {
     StackedPanelWidget* widget = _model->widget(index);
 
     _panelCombobox->insertItem(pos, name);
-
-    if (widget) {
-      _stackedToolbox->insertWidget(pos, widget->toolbox().get());
-    } else {
-      _stackedToolbox->insertWidget(pos, new QWidget(this));
-    }
+    _stackedToolbox->insertWidget(pos, widget->toolbox().get());
   }
 
   void StackedPanelBar::updateStackedToolboxSize(int pos) {

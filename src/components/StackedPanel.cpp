@@ -50,16 +50,8 @@ namespace HPX {
 
     _stackedWidget->setProperty("StackedPanelContainer", true);
 
-    connect(_panelBar, &StackedPanelBar::currentChanged, _stackedWidget, &QStackedWidget::setCurrentIndex);
-    connect(_panelBar, &StackedPanelBar::currentChanged, this, &StackedPanel::currentChanged);
-    connect(_stackedWidget, &QStackedWidget::currentChanged, this, [this](int pos) {
-      QWidget* widget = _stackedWidget->widget(pos);
-
-      if (widget) {
-        setFocusProxy(widget);
-        widget->setFocus();
-      }
-    });
+    connect(_panelBar, &StackedPanelBar::currentChanged,
+            this, &StackedPanel::onCurrentIndexChange);
   }
 
   StackedPanelModel* StackedPanel::model() const {
@@ -94,11 +86,25 @@ namespace HPX {
   }
 
   int StackedPanel::currentIndex() const {
-    return _stackedWidget->currentIndex();
+    return _currentIndex;
+  }
+
+  bool StackedPanel::freezed() const {
+    return _freezed;
+  }
+
+  void StackedPanel::setFreezed(bool freezed) {
+    _freezed = freezed;
+
+    if (!freezed) {
+      emitFocusIntWidget(_currentIndex);
+    }
   }
 
   void StackedPanel::setCurrentIndex(int index) {
-    _panelBar->setCurrentIndex(index);
+    _currentIndex = index;
+
+    _stackedWidget->setCurrentIndex(index);
   }
 
   void StackedPanel::setCurrentWidget(StackedPanelWidget* widget) {
@@ -109,36 +115,38 @@ namespace HPX {
     }
   }
 
-  void StackedPanel::setFocus(bool focused) {
-    setProperty("focused", focused);
+  void StackedPanel::emitFocusOutWidget(int index) {
+    auto indexWidget = widget(index);
 
-    style()->unpolish(this);
-    style()->polish(this);
-
-    currentWidget()->style()->unpolish(this);
-    currentWidget()->style()->polish(this);
-
-    if (focused) {
-      emit focusIn();
-    } else {
-      emit focusOut();
+    if (indexWidget) {
+      emit indexWidget->focusOut();
     }
   }
 
-  void StackedPanel::connectWidget(StackedPanelWidget* widget) {
-    connect(widget, &StackedPanelWidget::focusIn, this, [this, widget]() {
-      const int pos = _stackedWidget->indexOf(widget);
+  void StackedPanel::emitFocusIntWidget(int index) {
+    auto indexWidget = _stackedWidget->widget(index);
+    auto stackedPanelWidget = dynamic_cast<StackedPanelWidget*>(indexWidget);
 
-      if (pos != currentIndex()) {
-        setCurrentIndex(pos);
-      }
+    setFocusProxy(indexWidget);
 
-      setFocus(true);
-    });
+    if (stackedPanelWidget) {
+      emit stackedPanelWidget->focusIn();
+    }
+  }
 
-    connect(widget, &StackedPanelWidget::focusOut, this, [this]() {
-      setFocus(false);
-    });
+  void StackedPanel::onCurrentIndexChange(int index) {
+    // emit the focusOut signal to the previous widget
+    if (!_freezed) {
+      emitFocusOutWidget(_currentIndex);
+    }
+
+    // select the current stacked widget
+    setCurrentIndex(index);
+
+    // emit the focusIn signal to the current widget
+    if (!_freezed) {
+      emitFocusIntWidget(index);
+    }
   }
 
   void StackedPanel::onDataInsert(const QModelIndex& parent, int first, int last) {
@@ -152,7 +160,6 @@ namespace HPX {
       }
 
       _stackedWidget->insertWidget(i, widget);
-      connectWidget(widget);
     }
   }
 
@@ -172,8 +179,8 @@ namespace HPX {
     Q_UNUSED(first)
     Q_UNUSED(last)
 
-    if (_panelBar->currentIndex() > -1) {
-      setCurrentIndex(_panelBar->currentIndex());
+    if (_model->rowCount() == 0) {
+      _currentIndex = -1;
     }
   }
 
@@ -201,8 +208,6 @@ namespace HPX {
         _stackedWidget->setCurrentIndex(pos + 1);
         _stackedWidget->removeWidget(widget);
         _stackedWidget->setCurrentIndex(currentPos);
-
-        connectWidget(newWidget);
       }
     }
   }

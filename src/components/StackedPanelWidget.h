@@ -24,18 +24,22 @@
 #include "global.h"  // NOLINT(build/include)
 
 namespace HPX {
+  class StackedPanel;
   class StackedPanelToolbox;
 
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QWidget {
     Q_OBJECT
 
     QSharedPointer<StackedPanelToolbox> _toolbox;
+    bool _active = false;
 
     public:
       explicit StackedPanelWidget(QWidget* parent = nullptr);
 
       QSharedPointer<StackedPanelToolbox> toolbox();
       virtual void setFocus();
+
+      bool isActive() const;
 
     signals:
       void focusIn();

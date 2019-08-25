@@ -35,7 +35,13 @@ namespace HPX {
         WidgetRole
       };
 
-      StackedPanelItem() = default;
+    public:
+      StackedPanelItem(const QString& name, StackedPanelWidget*);
+
+      StackedPanelItem() = delete;
+      explicit StackedPanelItem(const QString &text) = delete;
+      StackedPanelItem(const QIcon &icon, const QString &text) = delete;
+      explicit StackedPanelItem(int rows, int columns = 1) = delete;
 
       int type() const override;
 

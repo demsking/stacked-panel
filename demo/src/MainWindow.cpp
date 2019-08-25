@@ -27,6 +27,8 @@
 #include <QPushButton>
 #include <QFileSystemWatcher>
 
+#include <QDebug>
+
 #include "components/StackedPanel.h"
 #include "components/StackedPanelWidget.h"
 #include "components/StackedPanelToolbox.h"
@@ -37,37 +39,40 @@ class PanelWidget: public HPX::StackedPanelWidget {
   QLabel _label;
 
   public:
-    explicit PanelWidget(const QString& label): _label(label, this) {}
+    explicit PanelWidget(const QString& label): _label(label, this) {
+      connect(this, &PanelWidget::focusIn, [this]() {
+        qDebug() << _label.text() << ":> FOCUS_IN" << isActive();
+      });
+
+      connect(this, &PanelWidget::focusOut, [this]() {
+        qDebug() << _label.text() << ":> FOCUS_OUT" << isActive();
+      });
+    }
 };
 
 MainWindow::MainWindow(const char* theme): QMainWindow() {
   setWindowTitle("HPX Stacked Panel Demo");
-  setGeometry(892, 342, 200, 650);
+  setGeometry(892, 342, 200, 210);
 
   _panel = new HPX::StackedPanel(this);
   _model = new HPX::StackedPanelModel(this);
 
   _panel->setModel(_model);
+  _panel->setFreezed(true);
 
   setCentralWidget(_panel);
 
   try {
-    auto item = new HPX::StackedPanelItem();
-
-    item->setName("exception");
-    _model->add(item);
+    _model->add(new HPX::StackedPanelItem("exception", nullptr));
   } catch (std::exception e) {
     _model->removeRow(0);
   }
 
   for (int i = 0; i < 5; i++) {
     const QString label = QString("Item %1").arg(i);
-    auto item = new HPX::StackedPanelItem();
     auto widget = new PanelWidget(label);
     auto toolbox = widget->toolbox();
-
-    item->setName(label);
-    item->setWidget(widget);
+    auto item = new HPX::StackedPanelItem(label, widget);
 
     if (i) {
       for (int j = 0; j < i; j++) {
@@ -77,6 +82,8 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
 
     _model->add(item);
   }
+
+  _panel->setFreezed(false);
 
   QFileSystemWatcher* themeWatcher = new QFileSystemWatcher({ theme }, this);
 

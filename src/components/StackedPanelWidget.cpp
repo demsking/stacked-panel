@@ -26,6 +26,14 @@ namespace HPX {
   StackedPanelWidget::StackedPanelWidget(QWidget* parent): QWidget(parent) {
     setProperty("StackedPanelWidget", true);
     _toolbox.reset(new StackedPanelToolbox(this));
+
+    connect(this, &StackedPanelWidget::focusIn, this, [this]() {
+      _active = true;
+    });
+
+    connect(this, &StackedPanelWidget::focusOut, this, [this]() {
+      _active = false;
+    });
   }
 
   QSharedPointer<StackedPanelToolbox> StackedPanelWidget::toolbox() {
@@ -35,5 +43,9 @@ namespace HPX {
   void StackedPanelWidget::setFocus() {
     QWidget::setFocus();
     emit focusIn();
+  }
+
+  bool StackedPanelWidget::isActive() const {
+    return _active;
   }
 }  // namespace HPX

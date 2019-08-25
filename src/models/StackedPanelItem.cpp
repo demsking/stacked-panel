@@ -24,6 +24,14 @@
 #include "components/StackedPanelToolbox.h"
 
 namespace HPX {
+  StackedPanelItem::StackedPanelItem(const QString& name, StackedPanelWidget* widget) {
+    setName(name);
+
+    if (widget) {
+      setWidget(widget);
+    }
+  }
+
   int StackedPanelItem::type() const {
     return StandarItemType::StackedPanel;
   }

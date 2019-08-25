@@ -40,6 +40,8 @@ namespace HPX {
     StackedPanelBar* _panelBar = nullptr;
     QStackedWidget* _stackedWidget = nullptr;
     StackedPanelModel* _model = nullptr;
+    int _currentIndex = -1;
+    bool _freezed = false;
 
     public:
       explicit StackedPanel(QWidget* parent = nullptr);
@@ -53,15 +55,19 @@ namespace HPX {
       int indexOf(StackedPanelWidget*);
       int currentIndex() const;
 
+      bool freezed() const;
+      void setFreezed(bool freezed);
+
     public slots:
       void setCurrentIndex(int index);
       void setCurrentWidget(StackedPanelWidget*);
-      void setFocus(bool focused);
 
     protected:
-      inline void connectWidget(StackedPanelWidget*);
+      void emitFocusOutWidget(int index);
+      void emitFocusIntWidget(int index);
 
     protected slots:
+      void onCurrentIndexChange(int index);
       void onDataInsert(const QModelIndex& parent, int first, int last);
       void onDataAboutRemove(const QModelIndex& parent, int first, int last);
       void onDataRemove(const QModelIndex& parent, int first, int last);
@@ -70,8 +76,6 @@ namespace HPX {
                         const QVector<int>& roles);
 
     signals:
-      void focusIn();
-      void focusOut();
       void currentChanged(int index);
   };
 }  // namespace HPX
