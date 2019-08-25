@@ -42,12 +42,10 @@ namespace HPX {
     QHBoxLayout* _layout = nullptr;
     QComboBox* _panelCombobox = nullptr;
     QStackedWidget* _stackedToolbox = nullptr;
-    QList<QWidget*> _emptyToolboxWidgets;
     StackedPanelModel* _model = nullptr;
 
     public:
       explicit StackedPanelBar(QWidget* parent = nullptr);
-      ~StackedPanelBar();
 
       StackedPanelModel* model() const;
       void setModel(StackedPanelModel*);

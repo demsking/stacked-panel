@@ -29,13 +29,12 @@ namespace HPX {
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QWidget {
     Q_OBJECT
 
-    StackedPanelToolbox* _toolbox = nullptr;
+    QSharedPointer<StackedPanelToolbox> _toolbox;
 
     public:
       explicit StackedPanelWidget(QWidget* parent = nullptr);
-      ~StackedPanelWidget();
 
-      StackedPanelToolbox* toolbox();
+      QSharedPointer<StackedPanelToolbox> toolbox();
       virtual void setFocus();
 
     signals:

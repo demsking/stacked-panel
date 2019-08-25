@@ -25,15 +25,10 @@
 namespace HPX {
   StackedPanelWidget::StackedPanelWidget(QWidget* parent): QWidget(parent) {
     setProperty("StackedPanelWidget", true);
-
-    _toolbox = new StackedPanelToolbox(this);
+    _toolbox.reset(new StackedPanelToolbox(this));
   }
 
-  StackedPanelWidget::~StackedPanelWidget() {
-    delete _toolbox;
-  }
-
-  StackedPanelToolbox* StackedPanelWidget::toolbox() {
+  QSharedPointer<StackedPanelToolbox> StackedPanelWidget::toolbox() {
     return _toolbox;
   }
 

@@ -23,7 +23,6 @@
 #include <QWidget>
 #include <QComboBox>
 #include <QHBoxLayout>
-#include <QToolButton>
 #include <QStackedWidget>
 
 #include "components/StackedPanelWidget.h"
@@ -65,17 +64,6 @@ namespace HPX {
             this, &StackedPanelBar::updateStackedToolboxSize);
   }
 
-  StackedPanelBar::~StackedPanelBar() {
-    delete _panelCombobox;
-
-    for (auto item: _emptyToolboxWidgets) {
-      delete item;
-    }
-
-    delete _stackedToolbox;
-    delete _layout;
-  }
-
   StackedPanelModel* StackedPanelBar::model() const {
     return _model;
   }
@@ -106,12 +94,9 @@ namespace HPX {
     _panelCombobox->insertItem(pos, name);
 
     if (widget) {
-      _stackedToolbox->insertWidget(pos, widget->toolbox());
+      _stackedToolbox->insertWidget(pos, widget->toolbox().get());
     } else {
-      auto widget = new QWidget(this);
-
-      _emptyToolboxWidgets.append(widget);
-      _stackedToolbox->insertWidget(pos, widget);
+      _stackedToolbox->insertWidget(pos, new QWidget(this));
     }
   }
 
@@ -161,9 +146,11 @@ namespace HPX {
     }
   }
 
-  void StackedPanelBar::onDataChange(const QModelIndex& topLeft,
-                                     const QModelIndex& bottomRight,
-                                     const QVector<int>& roles) {
+  void StackedPanelBar::onDataChange(
+    const QModelIndex& topLeft,
+    const QModelIndex& bottomRight,
+    const QVector<int>& roles
+  ) {
     Q_UNUSED(bottomRight)
 
     if (!topLeft.isValid()) {

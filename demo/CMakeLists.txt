@@ -35,7 +35,7 @@ find_package(KF5Config REQUIRED)
 
 #
 ## TARGET
-file(GLOB_RECURSE SOURCES src/*.h src/*.cpp)
+file(GLOB_RECURSE SOURCES src/*.h src/*.cpp ../src/*.cpp)
 
 include_directories(src)
 include_directories(../src)
@@ -51,3 +51,10 @@ target_link_libraries(${TARGET} LINK_PUBLIC
   KF5::ConfigCore
   HPXStackedPanel
 )
+
+# themes task
+add_custom_target(themes
+  COMMAND ${MAKE} -C ${PROJECT_SOURCE_DIR}/.. themes DEST=${CMAKE_BINARY_DIR}
+)
+
+add_dependencies(${TARGET} themes)

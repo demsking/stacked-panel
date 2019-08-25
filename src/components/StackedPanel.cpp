@@ -62,16 +62,6 @@ namespace HPX {
     });
   }
 
-  StackedPanel::~StackedPanel() {
-    delete _stackedWidget;
-    delete _panelBar;
-    delete _mainLayout;
-  }
-
-  StackedPanelBar* StackedPanel::panelBar() const {
-    return _panelBar;
-  }
-
   StackedPanelModel* StackedPanel::model() const {
     return _model;
   }

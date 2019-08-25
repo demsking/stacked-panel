@@ -36,10 +36,6 @@ namespace HPX {
     setProperty("StackedPanelToolBox", true);
   }
 
-  StackedPanelToolbox::~StackedPanelToolbox() {
-    delete _layout;
-  }
-
   int StackedPanelToolbox::count() const {
     return _layout->count();
   }

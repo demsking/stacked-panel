@@ -61,8 +61,8 @@ install(TARGETS ${TARGET} DESTINATION lib)
 file(GLOB_RECURSE HEADERS
   src/global.h
   src/components/StackedPanel.h
-  src/components/StackedPanelWidget.h
   src/components/StackedPanelToolbox.h
+  src/components/StackedPanelWidget.h
   src/models/StackedPanelItem.h
   src/models/StackedPanelModel.h
 )

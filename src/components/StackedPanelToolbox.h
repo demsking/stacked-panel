@@ -35,7 +35,6 @@ namespace HPX {
 
     public:
       explicit StackedPanelToolbox(QWidget* parent = nullptr);
-      ~StackedPanelToolbox() override;
 
       int count() const;
       QSize sizeHint() const override;
