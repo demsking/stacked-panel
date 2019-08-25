@@ -140,6 +140,7 @@ namespace HPX {
 
     // select the current stacked widget
     _currentIndex = index;
+    _stackedWidget->setCurrentIndex(index);
 
     // emit the focusIn signal to the current widget
     if (!_freezed) {
