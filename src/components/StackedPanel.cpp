@@ -183,9 +183,11 @@ namespace HPX {
     }
   }
 
-  void StackedPanel::onDataChange(const QModelIndex& topLeft,
-                                  const QModelIndex& bottomRight,
-                                  const QVector<int>& roles) {
+  void StackedPanel::onDataChange(
+    const QModelIndex& topLeft,
+    const QModelIndex& bottomRight,
+    const QVector<int>& roles
+  ) {
     Q_UNUSED(bottomRight)
 
     if (!topLeft.isValid()) {

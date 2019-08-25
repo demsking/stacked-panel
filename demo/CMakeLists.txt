@@ -54,7 +54,7 @@ target_link_libraries(${TARGET} LINK_PUBLIC
 
 # themes task
 add_custom_target(themes
-  COMMAND ${MAKE} -C ${PROJECT_SOURCE_DIR}/.. themes DEST=${CMAKE_BINARY_DIR}
+  COMMAND ${MAKE} -C ../../.. themes ENV=debug
 )
 
 add_dependencies(${TARGET} themes)

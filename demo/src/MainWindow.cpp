@@ -39,7 +39,9 @@ class PanelWidget: public HPX::StackedPanelWidget {
   QLabel _label;
 
   public:
-    explicit PanelWidget(const QString& label): _label(label, this) {
+    explicit PanelWidget(const QString& label): HPX::StackedPanelWidget(), _label(label) {
+      setStateWidget(HPX::StackedPanelWidget::State::Ready, &_label);
+
       connect(this, &PanelWidget::focusIn, [this]() {
         qDebug() << _label.text() << ":> FOCUS_IN" << isActive();
       });
@@ -73,6 +75,10 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
     auto widget = new PanelWidget(label);
     auto toolbox = widget->toolbox();
     auto item = new HPX::StackedPanelItem(label, widget);
+
+    if (i < 5) {
+      widget->setCurrentState(static_cast<HPX::StackedPanelWidget::State>(i));
+    }
 
     if (i) {
       for (int j = 0; j < i; j++) {

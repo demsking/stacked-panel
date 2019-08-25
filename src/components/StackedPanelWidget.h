@@ -1,4 +1,4 @@
-/**
+﻿/**
  * HPX Stacked Panel - A fully stylized StackedWidget implementation
  *
  * Copyright (C) 2019  Sébastien Demanou
@@ -20,18 +20,35 @@
 #ifndef HPXSTACKEDPANEL_COMPONENTS_TABVIEWWIDGET_H_
 #define HPXSTACKEDPANEL_COMPONENTS_TABVIEWWIDGET_H_
 
+#include <QMap>
+#include <QFrame>
 #include <QWidget>
 #include "global.h"  // NOLINT(build/include)
+
+class QVBoxLayout;
+class QStackedWidget;
 
 namespace HPX {
   class StackedPanel;
   class StackedPanelToolbox;
 
-  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QWidget {
+  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QFrame {
     Q_OBJECT
 
-    QSharedPointer<StackedPanelToolbox> _toolbox;
-    bool _active = false;
+    public:
+      enum class State {
+        None,
+        Loading,
+        Empty,
+        Ready
+      };
+
+    private:
+      QVBoxLayout* _layout = nullptr;
+      QStackedWidget* _stackedWidget = nullptr;
+
+      QSharedPointer<StackedPanelToolbox> _toolbox;
+      bool _active = false;
 
     public:
       explicit StackedPanelWidget(QWidget* parent = nullptr);
@@ -41,9 +58,16 @@ namespace HPX {
 
       bool isActive() const;
 
+      void setStateWidget(State, QWidget*);
+      State currentState() const;
+
+    public slots:
+      void setCurrentState(State);
+
     signals:
       void focusIn();
       void focusOut();
+      void currentStateChanged(State);
   };
 } // namespace HPX
 

@@ -20,11 +20,30 @@
 #include "components/StackedPanelWidget.h"
 
 #include <QVariant> // required for setProperty
+#include <QVBoxLayout>
+#include <QStackedWidget>
+#include <QLabel>
 #include "components/StackedPanelToolbox.h"
 
 namespace HPX {
-  StackedPanelWidget::StackedPanelWidget(QWidget* parent): QWidget(parent) {
-    setProperty("StackedPanelWidget", true);
+  StackedPanelWidget::StackedPanelWidget(QWidget* parent): QFrame(parent) {
+    _layout = new QVBoxLayout(this);
+    _stackedWidget = new QStackedWidget(this);
+
+    setProperty("StackedPanelFrame", true);
+    setStateWidget(State::None, new QWidget(this));
+    setStateWidget(State::Loading, new QWidget(this));
+    setStateWidget(State::Empty, new QWidget(this));
+    setStateWidget(State::Ready, new QWidget(this));
+
+    _layout->setMargin(0);
+    _layout->setSpacing(0);
+    _layout->setContentsMargins(QMargins());
+    _layout->addWidget(_stackedWidget);
+
+    _stackedWidget->setProperty("StackedPanelFrameContainer", true);
+    _stackedWidget->setCurrentIndex(0);
+
     _toolbox.reset(new StackedPanelToolbox(this));
 
     connect(this, &StackedPanelWidget::focusIn, this, [this]() {
@@ -47,5 +66,30 @@ namespace HPX {
 
   bool StackedPanelWidget::isActive() const {
     return _active;
+  }
+
+  void StackedPanelWidget::setStateWidget(State state, QWidget* widget) {
+    auto index = static_cast<int>(state);
+    auto deadWidget = _stackedWidget->widget(index);
+
+    widget->setProperty("StackedPanelFrameWidget", true);
+    widget->setProperty("state", index);
+
+    _stackedWidget->insertWidget(index, widget);
+    _stackedWidget->setCurrentIndex(index + 1);
+    _stackedWidget->removeWidget(deadWidget);
+    _stackedWidget->setCurrentIndex(index);
+  }
+
+  StackedPanelWidget::State StackedPanelWidget::currentState() const {
+    auto index = _stackedWidget->currentIndex();
+
+    return static_cast<State>(index);
+  }
+
+  void StackedPanelWidget::setCurrentState(State state) {
+    auto index = static_cast<int>(state);
+
+    _stackedWidget->setCurrentIndex(index);
   }
 }  // namespace HPX
