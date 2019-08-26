@@ -31,6 +31,9 @@
 #include "components/StackedPanelFrame.h"
 #include "components/StackedPanelWidget.h"
 #include "components/StackedPanelToolbox.h"
+
+#include "components/LandingWidget.h"
+
 #include "models/StackedPanelModel.h"
 #include "models/StackedPanelItem.h"
 
@@ -68,7 +71,7 @@ class PanelFrame: public HPX::StackedPanelFrame {
 
 MainWindow::MainWindow(const char* theme): QMainWindow() {
   setWindowTitle("HPX Stacked Panel Demo");
-  setGeometry(892, 342, 200, 210);
+  setGeometry(892, 342, 200, 610);
 
   _panel = new HPX::StackedPanel(this);
   _model = new HPX::StackedPanelModel(this);
@@ -78,8 +81,11 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
 
   setCentralWidget(_panel);
 
-  for (int i = 0; i < 5; i++) {
-    if (i < 2) {
+  const int MAX_WIDGETS = 2;
+  const char* LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+
+  for (int i = 0; i < 6; i++) {
+    if (i < MAX_WIDGETS) {
       auto label = QString("Widget %1").arg(i);
       auto widget = new PanelWidget(label);
       auto toolbox = widget->toolbox();
@@ -97,9 +103,39 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
       auto widget = new PanelFrame(label);
       auto toolbox = widget->toolbox();
       auto item = new HPX::StackedPanelItem(label, widget);
+      auto state = static_cast<HPX::StackedPanelFrame::State>(i - MAX_WIDGETS);
 
       if (i < 5) {
-        widget->setCurrentState(static_cast<HPX::StackedPanelFrame::State>(i));
+        widget->setCurrentState(state);
+      }
+
+      switch (state) {
+        case HPX::StackedPanelFrame::State::None:
+          widget->setStateWidget(state, new HPX::LandingWidget("None", LOREM, this));
+          break;
+
+        case HPX::StackedPanelFrame::State::Empty: {
+          auto emptyWidget = new HPX::LandingWidget("Empty", LOREM, this);
+
+          emptyWidget->addButton(new QPushButton("New Project"));
+          emptyWidget->addButton(new QPushButton("Open Project"));
+
+          widget->setStateWidget(state, emptyWidget);
+          break;
+        }
+
+        case HPX::StackedPanelFrame::State::Loading:
+          widget->setStateWidget(state, new HPX::LandingWidget("Loading", LOREM, this));
+          break;
+
+        case HPX::StackedPanelFrame::State::Ready: {
+          auto emptyWidget = new HPX::LandingWidget("Ready", LOREM, this);
+
+          emptyWidget->addButton(new QPushButton("Start Coding"));
+
+          widget->setStateWidget(state, emptyWidget);
+          break;
+        }
       }
 
       if (i) {

@@ -82,3 +82,39 @@ apply-theme()
     color: $stacked-panel-color-selected
     border-color: transparent
     background-color: transparent
+
+  [LandingWidget]
+    //
+
+  [LandingWidgetImageLabel]
+    min-width: 250px
+    min-height: 200px
+    border-width: 0
+    border-image: url(themes/empty.svg) 0 0 0 0 stretch stretch
+
+  [LandingWidgetTitleLabel]
+  [LandingWidgetTextLabel]
+    color: $stacked-panel-color-selected
+    qproperty-alignment: AlignCenter
+    qproperty-wordWrap: true
+    margin: 1
+
+  [LandingWidgetTitleLabel]
+    font-size: 24px
+
+  [LandingWidgetActionButton]
+    margin-top: 10px
+    padding: 5px 10px
+
+    color: #fff
+    background-color: #568af2
+
+    border: none
+    border-radius: 2px
+
+    &:hover
+      background-color: darken(@background-color, 5%)
+
+    &:pressed
+      background-color: darken(@background-color, 10%)
+
