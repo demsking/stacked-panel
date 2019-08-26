@@ -23,7 +23,7 @@
 #include <QWidget>
 
 #include "global.h"  // NOLINT(build/include)
-#include "components/StackedPanelWidget.h"
+#include "StackedPanelWidget.h"
 
 class QVBoxLayout;
 class QStackedWidget;
