@@ -1,4 +1,4 @@
-﻿/**
+/**
  * HPX Stacked Panel - A fully stylized StackedWidget implementation
  *
  * Copyright (C) 2019  Sébastien Demanou
@@ -17,60 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HPXSTACKEDPANEL_COMPONENTS_TABVIEWWIDGET_H_
-#define HPXSTACKEDPANEL_COMPONENTS_TABVIEWWIDGET_H_
+#ifndef HPXSTACKEDPANEL_COMPONENTS_STACKEDWIDGET_H_
+#define HPXSTACKEDPANEL_COMPONENTS_STACKEDWIDGET_H_
 
-#include <QMap>
-#include <QFrame>
 #include <QWidget>
+#include <QSharedPointer>
+
 #include "global.h"  // NOLINT(build/include)
 
-class QVBoxLayout;
-class QStackedWidget;
-
 namespace HPX {
-  class StackedPanel;
   class StackedPanelToolbox;
 
-  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QFrame {
+  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QWidget {
     Q_OBJECT
 
-    public:
-      enum class State {
-        None,
-        Loading,
-        Empty,
-        Ready
-      };
+    QSharedPointer<StackedPanelToolbox> _toolbox;
+    bool _active = false;
 
-    private:
-      QVBoxLayout* _layout = nullptr;
-      QStackedWidget* _stackedWidget = nullptr;
-
-      QSharedPointer<StackedPanelToolbox> _toolbox;
-      bool _active = false;
+    protected:
+      explicit StackedPanelWidget(bool disableProperty, QWidget* parent = nullptr);
 
     public:
       explicit StackedPanelWidget(QWidget* parent = nullptr);
-
-      QSharedPointer<StackedPanelToolbox> toolbox();
-      virtual void setFocus();
+      virtual ~StackedPanelWidget() = default;
 
       bool isActive() const;
+      QSharedPointer<StackedPanelToolbox> toolbox();
 
-      void setStateWidget(State, QWidget*);
-      State currentState() const;
-
-    public slots:
-      void setCurrentState(State);
+      virtual void setFocus();
 
     signals:
       void focusIn();
       void focusOut();
-      void currentStateChanged(State);
   };
 } // namespace HPX
 
-Q_DECLARE_METATYPE(HPX::StackedPanelWidget*)
-
-#endif // HPXSTACKEDPANEL_COMPONENTS_TABVIEWWIDGET_H_
+#endif // HPXSTACKEDPANEL_COMPONENTS_STACKEDWIDGET_H_

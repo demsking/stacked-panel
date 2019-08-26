@@ -19,8 +19,6 @@
 
 #include "MainWindow.h"
 
-#include <exception>
-
 #include <QFile>
 #include <QLabel>
 #include <QLineEdit>
@@ -30,6 +28,7 @@
 #include <QDebug>
 
 #include "components/StackedPanel.h"
+#include "components/StackedPanelFrame.h"
 #include "components/StackedPanelWidget.h"
 #include "components/StackedPanelToolbox.h"
 #include "models/StackedPanelModel.h"
@@ -40,7 +39,22 @@ class PanelWidget: public HPX::StackedPanelWidget {
 
   public:
     explicit PanelWidget(const QString& label): HPX::StackedPanelWidget(), _label(label) {
-      setStateWidget(HPX::StackedPanelWidget::State::Ready, &_label);
+      connect(this, &PanelWidget::focusIn, [this]() {
+        qDebug() << _label.text() << ":> FOCUS_IN" << isActive();
+      });
+
+      connect(this, &PanelWidget::focusOut, [this]() {
+        qDebug() << _label.text() << ":> FOCUS_OUT" << isActive();
+      });
+    }
+};
+
+class PanelFrame: public HPX::StackedPanelFrame {
+    QLabel _label;
+
+  public:
+    explicit PanelFrame(const QString& label): HPX::StackedPanelFrame(), _label(label) {
+      setStateWidget(HPX::StackedPanelFrame::State::Ready, &_label);
 
       connect(this, &PanelWidget::focusIn, [this]() {
         qDebug() << _label.text() << ":> FOCUS_IN" << isActive();
@@ -64,29 +78,38 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
 
   setCentralWidget(_panel);
 
-  try {
-    _model->add(new HPX::StackedPanelItem("exception", nullptr));
-  } catch (std::exception e) {
-    _model->removeRow(0);
-  }
-
   for (int i = 0; i < 5; i++) {
-    const QString label = QString("Item %1").arg(i);
-    auto widget = new PanelWidget(label);
-    auto toolbox = widget->toolbox();
-    auto item = new HPX::StackedPanelItem(label, widget);
+    if (i < 2) {
+      auto label = QString("Widget %1").arg(i);
+      auto widget = new PanelWidget(label);
+      auto toolbox = widget->toolbox();
+      auto item = new HPX::StackedPanelItem(label, widget);
 
-    if (i < 5) {
-      widget->setCurrentState(static_cast<HPX::StackedPanelWidget::State>(i));
-    }
-
-    if (i) {
-      for (int j = 0; j < i; j++) {
-        toolbox->addButton(new QPushButton(QString("B%1").arg(j)));
+      if (i) {
+        for (int j = 0; j < i; j++) {
+          toolbox->addButton(new QPushButton(QString("B%1").arg(j)));
+        }
       }
-    }
 
-    _model->add(item);
+      _model->add(item);
+    } else {
+      auto label = QString("Panel %1").arg(i);
+      auto widget = new PanelFrame(label);
+      auto toolbox = widget->toolbox();
+      auto item = new HPX::StackedPanelItem(label, widget);
+
+      if (i < 5) {
+        widget->setCurrentState(static_cast<HPX::StackedPanelFrame::State>(i));
+      }
+
+      if (i) {
+        for (int j = 0; j < i; j++) {
+          toolbox->addButton(new QPushButton(QString("B%1").arg(j)));
+        }
+      }
+
+      _model->add(item);
+    }
   }
 
   _panel->setFreezed(false);

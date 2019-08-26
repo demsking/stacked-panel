@@ -25,7 +25,7 @@
 #include <QHBoxLayout>
 #include <QStackedWidget>
 
-#include "components/StackedPanelWidget.h"
+#include "components/StackedPanelFrame.h"
 #include "components/StackedPanelToolbox.h"
 
 #include "models/StackedPanelItem.h"

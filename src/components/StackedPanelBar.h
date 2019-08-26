@@ -23,8 +23,6 @@
 #include <QList>
 #include <QFrame>
 
-#include "global.h"  // NOLINT(build/include)
-
 class QWidget;
 class QComboBox;
 class QHBoxLayout;
@@ -32,11 +30,11 @@ class QStackedWidget;
 
 namespace HPX {
   class StackedPanelModel;
-  class StackedPanelWidget;
+  class StackedPanelFrame;
   class StackedPanelBarButton;
   class StackedPanelToolbox;
 
-  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelBar: public QFrame {
+  class StackedPanelBar: public QFrame {
     Q_OBJECT
 
     QHBoxLayout* _layout = nullptr;

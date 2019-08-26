@@ -9,7 +9,6 @@ set(KF5_MIN_VERSION "5.46.0")
 set(CMAKE_CXX_STANDARD 14)
 
 string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
-add_definitions(-Wall -O2 -fexceptions)
 
 find_program(MAKE NAMES make)
 find_package(ECM 1.3.0 REQUIRED NO_MODULE)

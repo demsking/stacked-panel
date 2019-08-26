@@ -16,7 +16,6 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(DIST_DIR ${PROJECT_SOURCE_DIR}/dist)
 
 add_definitions(-DHPX_LIBRARY)
-add_definitions(-Wall -O2 -fexceptions)
 
 find_program(MAKE NAMES make)
 find_package(ECM 1.3.0 REQUIRED NO_MODULE)
@@ -63,6 +62,7 @@ file(GLOB_RECURSE HEADERS
   src/components/StackedPanel.h
   src/components/StackedPanelToolbox.h
   src/components/StackedPanelWidget.h
+  src/components/StackedPanelFrame.h
   src/models/StackedPanelItem.h
   src/models/StackedPanelModel.h
 )

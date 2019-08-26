@@ -20,8 +20,8 @@
 #include "models/StackedPanelItem.h"
 #include "models/StandarItemType.h"
 #include "components/StackedPanel.h"
-#include "components/StackedPanelWidget.h"
 #include "components/StackedPanelToolbox.h"
+#include "components/StackedPanelWidget.h"
 
 namespace HPX {
   StackedPanelItem::StackedPanelItem(const QString& name, StackedPanelWidget* widget) {

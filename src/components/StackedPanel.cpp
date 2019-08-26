@@ -26,8 +26,6 @@
 #include <QStackedWidget>
 #include <QCoreApplication>
 
-#include <stdexcept>
-
 #include "components/StackedPanelBar.h"
 #include "components/StackedPanelWidget.h"
 
@@ -152,13 +150,7 @@ namespace HPX {
     Q_UNUSED(parent)
 
     for (int i = first; i <= last; i++) {
-      StackedPanelWidget* widget = _model->widget(i);
-
-      if (widget == nullptr) {
-        throw std::invalid_argument("StackedPanelItem::widget cannot be a nullptr");
-      }
-
-      _stackedWidget->insertWidget(i, widget);
+      _stackedWidget->insertWidget(i, _model->widget(i));
     }
   }
 
