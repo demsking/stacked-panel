@@ -44,6 +44,10 @@ namespace HPX {
 
     _stackedWidget->setProperty("StackedPanelFrameContainer", true);
     _stackedWidget->setCurrentIndex(0);
+
+    connect(_stackedWidget, &QStackedWidget::currentChanged, this, [this](int index) {
+      emit currentStateChanged(static_cast<State>(index));
+    });
   }
 
   void StackedPanelFrame::setStateWidget(State state, QWidget* widget) {
