@@ -22,6 +22,7 @@
 #include <QFrame>
 #include <QWidget>
 #include <QVariant> // required for setProperty
+#include <QWidgetItem>
 #include <QHBoxLayout>
 #include <QAbstractButton>
 
@@ -56,11 +57,36 @@ namespace HPX {
 
   void StackedPanelToolbox::addButton(QAbstractButton* button) {
     button->setProperty("StackedPanelToolBoxButton", true);
+    button->setEnabled(_enabled);
 
     _layout->insertWidget(0, button);
   }
 
   void StackedPanelToolbox::removeButton(QAbstractButton* button) {
     _layout->removeWidget(button);
+  }
+
+  void StackedPanelToolbox::enable() {
+    setEnabled(true);
+  }
+
+  void StackedPanelToolbox::disable() {
+    setDisabled(true);
+  }
+
+  void StackedPanelToolbox::setEnabled(bool enabled) {
+    _enabled = enabled;
+
+    for (int i = 0; i < _layout->count(); i++) {
+      QLayoutItem * const item = _layout->itemAt(i);
+
+      if (dynamic_cast<QWidgetItem*>(item)) {
+        item->widget()->setDisabled(enabled);
+      }
+    }
+  }
+
+  void StackedPanelToolbox::setDisabled(bool disabled) {
+    setEnabled(!disabled);
   }
 }  // namespace HPX

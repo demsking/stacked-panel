@@ -32,6 +32,7 @@ namespace HPX {
     Q_OBJECT
 
     QHBoxLayout* _layout = nullptr;
+    bool _enabled = true;
 
     public:
       explicit StackedPanelToolbox(QWidget* parent = nullptr);
@@ -43,6 +44,12 @@ namespace HPX {
 
       void addButton(QAbstractButton*);
       void removeButton(QAbstractButton*);
+
+      void enable();
+      void disable();
+
+      void setEnabled(bool enabled);
+      void setDisabled(bool disabled);
   };
 }  // namespace HPX
 
