@@ -81,7 +81,7 @@ namespace HPX {
       QLayoutItem * const item = _layout->itemAt(i);
 
       if (dynamic_cast<QWidgetItem*>(item)) {
-        item->widget()->setDisabled(enabled);
+        item->widget()->setEnabled(enabled);
       }
     }
   }
