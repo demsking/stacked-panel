@@ -127,6 +127,8 @@ namespace HPX {
 
     if (stackedPanelWidget) {
       emit stackedPanelWidget->focusIn();
+      emit currentIndexChanged(index);
+      emit currentWidgetChanged(stackedPanelWidget);
     }
   }
 

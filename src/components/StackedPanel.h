@@ -76,7 +76,8 @@ namespace HPX {
                         const QVector<int>& roles);
 
     signals:
-      void currentChanged(int index);
+      void currentIndexChanged(int index);
+      void currentWidgetChanged(StackedPanelWidget*);
   };
 }  // namespace HPX
 
