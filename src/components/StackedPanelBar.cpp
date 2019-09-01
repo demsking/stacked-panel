@@ -37,6 +37,7 @@ namespace HPX {
   StackedPanelBar::StackedPanelBar(QWidget* parent): QFrame(parent) {
     setFixedHeight(33);
     setProperty("StackedPanelBar", true);
+    setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     _layout = new QHBoxLayout(this);
     _panelCombobox = new QComboBox(this);

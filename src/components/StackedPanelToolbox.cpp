@@ -35,6 +35,7 @@ namespace HPX {
     _layout->setContentsMargins(QMargins());
 
     setProperty("StackedPanelToolBox", true);
+    setFocusPolicy(Qt::FocusPolicy::NoFocus);
   }
 
   int StackedPanelToolbox::count() const {

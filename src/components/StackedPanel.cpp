@@ -35,6 +35,7 @@
 namespace HPX {
   StackedPanel::StackedPanel(QWidget* parent): QFrame(parent) {
     setProperty("StackedPanel", true);
+    setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     _mainLayout = new QVBoxLayout(this);
     _panelBar = new StackedPanelBar(this);

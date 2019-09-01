@@ -32,6 +32,8 @@ namespace HPX {
     _stackedWidget = new QStackedWidget(this);
 
     setProperty("StackedPanelFrame", true);
+    setFocusPolicy(Qt::FocusPolicy::NoFocus);
+
     setStateWidget(State::None, new QWidget(this));
     setStateWidget(State::Loading, new QWidget(this));
     setStateWidget(State::Empty, new QWidget(this));
@@ -47,6 +49,7 @@ namespace HPX {
 
     connect(_stackedWidget, &QStackedWidget::currentChanged, this, [this](int index) {
       emit currentStateChanged(static_cast<State>(index));
+      currentWidget()->setFocus();
     });
   }
 

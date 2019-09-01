@@ -35,6 +35,7 @@ namespace HPX {
 
   LandingWidget::LandingWidget(QWidget* parent): QWidget(parent) {
     setProperty("LandingWidget", true);
+    setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     _vboxLayout = new QVBoxLayout(this);
     _hboxLayout = new QHBoxLayout;
