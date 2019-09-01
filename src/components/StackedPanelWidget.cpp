@@ -28,7 +28,7 @@ namespace HPX {
       setProperty("StackedPanelWidget", true);
     }
 
-    _toolbox.reset(new StackedPanelToolbox(this));
+    _toolbox = new StackedPanelToolbox(this);
 
     connect(this, &StackedPanelWidget::focusIn, this, [this]() {
       _active = true;
@@ -46,7 +46,7 @@ namespace HPX {
     return _active;
   }
 
-  QSharedPointer<StackedPanelToolbox> StackedPanelWidget::toolbox() {
+  StackedPanelToolbox* StackedPanelWidget::toolbox() {
     return _toolbox;
   }
 

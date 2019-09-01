@@ -21,7 +21,6 @@
 #define HPXSTACKEDPANEL_COMPONENTS_STACKEDWIDGET_H_
 
 #include <QWidget>
-#include <QSharedPointer>
 
 #include "global.h"  // NOLINT(build/include)
 
@@ -31,7 +30,7 @@ namespace HPX {
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QWidget {
     Q_OBJECT
 
-    QSharedPointer<StackedPanelToolbox> _toolbox;
+    StackedPanelToolbox* _toolbox;
     bool _active = false;
 
     protected:
@@ -42,7 +41,7 @@ namespace HPX {
       virtual ~StackedPanelWidget() = default;
 
       bool isActive() const;
-      QSharedPointer<StackedPanelToolbox> toolbox();
+      StackedPanelToolbox* toolbox();
 
       virtual void setFocus();
 

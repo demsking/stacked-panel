@@ -115,7 +115,7 @@ namespace HPX {
   void StackedPanelBar::insert(const QModelIndex& index, int pos) {
     StackedPanelWidget* widget = _model->widget(index);
 
-    _stackedToolbox->insertWidget(pos, widget->toolbox().get());
+    _stackedToolbox->insertWidget(pos, widget->toolbox());
   }
 
   void StackedPanelBar::updateStackedToolboxSize(int pos) {
