@@ -49,6 +49,8 @@ namespace HPX {
 
     _stackedWidget->setProperty("StackedPanelContainer", true);
 
+    _panelBar->setVisible(false);
+
     connect(_panelBar, &StackedPanelBar::currentChanged,
             this, &StackedPanel::onCurrentIndexChange);
   }
@@ -159,6 +161,8 @@ namespace HPX {
     for (int i = first; i <= last; i++) {
       _stackedWidget->insertWidget(i, _model->widget(i));
     }
+
+    _panelBar->setVisible(_model->rowCount() != 0);
   }
 
   void StackedPanel::onDataAboutRemove(const QModelIndex& parent, int first, int last) {
@@ -180,6 +184,8 @@ namespace HPX {
     if (_model->rowCount() == 0) {
       _currentIndex = -1;
     }
+
+    _panelBar->setVisible(_model->rowCount() != 0);
   }
 
   void StackedPanel::onDataChange(
