@@ -54,6 +54,18 @@ namespace HPX {
     return data(index, StackedPanelItem::WidgetRole).value<StackedPanelWidget*>();
   }
 
+  int StackedPanelModel::findRow(const QString& text, int role) {
+    for (auto i = 0; i < rowCount(); i++) {
+      auto currentTextValue = data(index(i, role)).value<QString>();
+
+      if (QString::localeAwareCompare(currentTextValue, text) == 0) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
   QModelIndex StackedPanelModel::sibling(int row, int column, const QModelIndex& idx) const {
     if (rowCount() == 0) {
       return QStandardItemModel::sibling(row, column, idx);

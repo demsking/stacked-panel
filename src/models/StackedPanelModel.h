@@ -44,6 +44,8 @@ namespace HPX {
       StackedPanelWidget* widget(int pos) const;
       StackedPanelWidget* widget(const QModelIndex&) const;
 
+      int findRow(const QString& text, int role);
+
       QModelIndex sibling(int row, int column, const QModelIndex& = QModelIndex()) const override;
   };
 } // namespace HPX
