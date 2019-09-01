@@ -31,8 +31,8 @@ namespace HPX {
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelItem: public QStandardItem {
     public:
       enum Role {
-        NameRole = Qt::UserRole + 9099,
-        WidgetRole,
+        NameRole = Qt::DisplayRole,
+        WidgetRole = Qt::UserRole + 9099,
         UserRole
       };
 

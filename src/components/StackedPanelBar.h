@@ -76,9 +76,6 @@ namespace HPX {
       void updateStackedToolboxSize(int);
       void onRowsInsert(const QModelIndex& parent, int first, int last);
       void onRowsRemove(const QModelIndex& parent, int first, int last);
-      void onDataChange(const QModelIndex& topLeft,
-                        const QModelIndex& bottomRight,
-                        const QVector<int>& roles);
 
     signals:
       void currentChanged(int index);

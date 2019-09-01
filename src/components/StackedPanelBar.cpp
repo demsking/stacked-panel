@@ -81,6 +81,8 @@ namespace HPX {
 
     _model = model;
 
+    _panelCombobox->setModel(model);
+
     connect(model, &StackedPanelModel::rowsInserted, this, &StackedPanelBar::onRowsInsert);
     connect(model, &StackedPanelModel::rowsRemoved, this, &StackedPanelBar::onRowsRemove);
   }
@@ -111,10 +113,8 @@ namespace HPX {
   }
 
   void StackedPanelBar::insert(const QModelIndex& index, int pos) {
-    const QString name = _model->name(index);
     StackedPanelWidget* widget = _model->widget(index);
 
-    _panelCombobox->insertItem(pos, name);
     _stackedToolbox->insertWidget(pos, widget->toolbox().get());
   }
 
@@ -152,7 +152,6 @@ namespace HPX {
 
   void StackedPanelBar::onRowsRemove(const QModelIndex& parent, int first, int last) {
     for (int i = last; i >= first; i--) {
-      _panelCombobox->removeItem(i);
       _stackedToolbox->removeWidget(_stackedToolbox->widget(i));
     }
 
@@ -161,29 +160,6 @@ namespace HPX {
 
     if (index.isValid()) {
       setCurrentIndex(index.row());
-    }
-  }
-
-  void StackedPanelBar::onDataChange(
-    const QModelIndex& topLeft,
-    const QModelIndex& bottomRight,
-    const QVector<int>& roles
-  ) {
-    Q_UNUSED(bottomRight)
-
-    if (!topLeft.isValid()) {
-      return;
-    }
-
-    for (const int& role: roles) {
-      auto roleEnum = static_cast<StackedPanelItem::Role>(role);
-
-      if (roleEnum == StackedPanelItem::Role::NameRole) {
-        const int pos = topLeft.row();
-        const QString name = _model->name(pos);
-
-        _panelCombobox->setItemText(pos, name);
-      }
     }
   }
 }  // namespace HPX
