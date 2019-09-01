@@ -49,6 +49,8 @@ namespace HPX {
       virtual ~StackedPanelFrame() = default;
 
       void setStateWidget(State, QWidget*);
+      QWidget* stateWidget(State) const;
+      QWidget* currentWidget() const;
       State currentState() const;
 
     public slots:

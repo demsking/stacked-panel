@@ -63,6 +63,16 @@ namespace HPX {
     _stackedWidget->setCurrentIndex(index);
   }
 
+  QWidget* StackedPanelFrame::stateWidget(StackedPanelFrame::State state) const {
+    auto index = static_cast<int>(state);
+
+    return _stackedWidget->widget(index);
+  }
+
+  QWidget* StackedPanelFrame::currentWidget() const {
+    return stateWidget(currentState());
+  }
+
   StackedPanelFrame::State StackedPanelFrame::currentState() const {
     auto index = _stackedWidget->currentIndex();
 
