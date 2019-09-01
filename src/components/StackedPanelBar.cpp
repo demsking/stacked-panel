@@ -46,6 +46,7 @@ namespace HPX {
     _globalRightToolbox = new StackedPanelToolbox(this);
 
     _panelCombobox->setProperty("StackedPanelBarCombobox", true);
+    _panelCombobox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     _stackedToolbox->setProperty(PROPERTY_TOOLBOX_CONTAINER, true);
 
     _layout->setSpacing(0);
