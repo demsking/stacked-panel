@@ -43,6 +43,7 @@ namespace HPX {
     _mainLayout->setMargin(0);
     _mainLayout->setSpacing(0);
     _mainLayout->setContentsMargins(QMargins());
+
     _mainLayout->addWidget(_panelBar);
     _mainLayout->addWidget(_stackedWidget);
 

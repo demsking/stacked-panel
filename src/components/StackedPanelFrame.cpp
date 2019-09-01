@@ -84,4 +84,9 @@ namespace HPX {
 
     _stackedWidget->setCurrentIndex(index);
   }
+
+  void StackedPanelFrame::setFocus() {
+    currentWidget()->setFocus();
+    emit focusIn();
+  }
 }  // namespace HPX

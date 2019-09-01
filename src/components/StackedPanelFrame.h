@@ -46,12 +46,13 @@ namespace HPX {
 
     public:
       explicit StackedPanelFrame(QWidget* parent = nullptr);
-      virtual ~StackedPanelFrame() = default;
 
       void setStateWidget(State, QWidget*);
       QWidget* stateWidget(State) const;
       QWidget* currentWidget() const;
       State currentState() const;
+
+      void setFocus() override;
 
     public slots:
       void setCurrentState(State);
