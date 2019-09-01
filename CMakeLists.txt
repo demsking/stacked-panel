@@ -63,6 +63,7 @@ file(GLOB_RECURSE HEADERS
   src/components/StackedPanelToolbox.h
   src/components/StackedPanelWidget.h
   src/components/StackedPanelFrame.h
+  src/components/StackedPanelBar.h
   src/components/LandingWidget.h
   src/models/StackedPanelItem.h
   src/models/StackedPanelModel.h

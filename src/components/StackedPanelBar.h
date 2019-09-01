@@ -23,10 +23,13 @@
 #include <QList>
 #include <QFrame>
 
+#include "global.h"  // NOLINT(build/include)
+
 class QWidget;
 class QComboBox;
 class QHBoxLayout;
 class QStackedWidget;
+class QAbstractButton;
 
 namespace HPX {
   class StackedPanelModel;
@@ -34,13 +37,23 @@ namespace HPX {
   class StackedPanelBarButton;
   class StackedPanelToolbox;
 
-  class StackedPanelBar: public QFrame {
+  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelBar: public QFrame {
     Q_OBJECT
 
     QHBoxLayout* _layout = nullptr;
     QComboBox* _panelCombobox = nullptr;
     QStackedWidget* _stackedToolbox = nullptr;
+
+    StackedPanelToolbox* _globalLeftToolbox = nullptr;
+    StackedPanelToolbox* _globalRightToolbox = nullptr;
+
     StackedPanelModel* _model = nullptr;
+
+    public:
+      enum class Position {
+        Left,
+        Right
+      };
 
     public:
       explicit StackedPanelBar(QWidget* parent = nullptr);
@@ -49,6 +62,9 @@ namespace HPX {
       void setModel(StackedPanelModel*);
 
       int currentIndex() const;
+
+      void addGlobalButton(QAbstractButton*, Position);
+      void removeGlobalButton(QAbstractButton*);
 
     public slots:
       void setCurrentIndex(int index);

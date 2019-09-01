@@ -42,14 +42,20 @@ namespace HPX {
     _panelCombobox = new QComboBox(this);
     _stackedToolbox = new QStackedWidget(this);
 
+    _globalLeftToolbox = new StackedPanelToolbox(this);
+    _globalRightToolbox = new StackedPanelToolbox(this);
+
     _panelCombobox->setProperty("StackedPanelBarCombobox", true);
     _stackedToolbox->setProperty(PROPERTY_TOOLBOX_CONTAINER, true);
 
     _layout->setSpacing(0);
     _layout->setMargin(0);
     _layout->setContentsMargins(QMargins());
+
+    _layout->addWidget(_globalLeftToolbox, 0);
     _layout->addWidget(_panelCombobox, 1);
     _layout->addWidget(_stackedToolbox, 0);
+    _layout->addWidget(_globalRightToolbox, 0);
 
     connect(_panelCombobox, qOverload<int>(&QComboBox::currentIndexChanged),
             this, &StackedPanelBar::setCurrentIndex);
@@ -81,6 +87,23 @@ namespace HPX {
 
   int StackedPanelBar::currentIndex() const {
     return _panelCombobox->currentIndex();
+  }
+
+  void StackedPanelBar::addGlobalButton(QAbstractButton* button, Position position) {
+    switch (position) {
+      case Position::Left:
+        _globalLeftToolbox->addButton(button);
+        break;
+
+      case Position::Right:
+        _globalRightToolbox->addButton(button);
+        break;
+    }
+  }
+
+  void StackedPanelBar::removeGlobalButton(QAbstractButton* button) {
+    _globalLeftToolbox->removeButton(button);
+    _globalRightToolbox->removeButton(button);
   }
 
   void StackedPanelBar::setCurrentIndex(int index) {

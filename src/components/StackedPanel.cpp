@@ -52,6 +52,10 @@ namespace HPX {
             this, &StackedPanel::onCurrentIndexChange);
   }
 
+  StackedPanelBar* StackedPanel::panelBar() const {
+    return _panelBar;
+  }
+
   StackedPanelModel* StackedPanel::model() const {
     return _model;
   }

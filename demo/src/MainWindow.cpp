@@ -31,6 +31,7 @@
 #include "components/StackedPanelFrame.h"
 #include "components/StackedPanelWidget.h"
 #include "components/StackedPanelToolbox.h"
+#include "components/StackedPanelBar.h"
 
 #include "components/LandingWidget.h"
 
@@ -71,13 +72,16 @@ class PanelFrame: public HPX::StackedPanelFrame {
 
 MainWindow::MainWindow(const char* theme): QMainWindow() {
   setWindowTitle("HPX Stacked Panel Demo");
-  setGeometry(892, 342, 200, 610);
+  setGeometry(892, 342, 250, 610);
 
   _panel = new HPX::StackedPanel(this);
   _model = new HPX::StackedPanelModel(this);
 
   _panel->setModel(_model);
   _panel->setFreezed(true);
+
+  _panel->panelBar()->addGlobalButton(new QPushButton("GL"), HPX::StackedPanelBar::Position::Left);
+  _panel->panelBar()->addGlobalButton(new QPushButton("GR"), HPX::StackedPanelBar::Position::Right);
 
   setCentralWidget(_panel);
 
