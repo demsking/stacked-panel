@@ -30,12 +30,8 @@ namespace HPX {
     });
   }
 
-  void StackedPanelModel::add(StackedPanelItem* item) {
-    appendRow(item);
-  }
-
-  int StackedPanelModel::count() const {
-    return rowCount();
+  void StackedPanelModel::appendRow(StackedPanelItem* item) {
+    QStandardItemModel::appendRow(item);
   }
 
   QString StackedPanelModel::name(int pos) const {
@@ -52,19 +48,6 @@ namespace HPX {
 
   StackedPanelWidget* StackedPanelModel::widget(const QModelIndex& index) const {
     return data(index, StackedPanelItem::WidgetRole).value<StackedPanelWidget*>();
-  }
-
-  template<typename T>
-  int StackedPanelModel::findRow(const T& filter, int role) {
-    for (auto i = 0; i < rowCount(); i++) {
-      auto currentTextValue = data(index(i, role)).value<QString>();
-
-      if (QString::localeAwareCompare(currentTextValue, filter) == 0) {
-        return i;
-      }
-    }
-
-    return -1;
   }
 
   QModelIndex StackedPanelModel::sibling(int row, int column, const QModelIndex& idx) const {

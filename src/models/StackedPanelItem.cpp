@@ -19,8 +19,6 @@
 
 #include "models/StackedPanelItem.h"
 #include "models/StandarItemType.h"
-#include "components/StackedPanel.h"
-#include "components/StackedPanelToolbox.h"
 #include "components/StackedPanelWidget.h"
 
 namespace HPX {

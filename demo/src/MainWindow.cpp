@@ -101,7 +101,7 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
         }
       }
 
-      _model->add(item);
+      _model->appendRow(item);
     } else {
       auto label = QString("Panel %1").arg(i);
       auto widget = new PanelFrame(label);
@@ -148,7 +148,7 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
         }
       }
 
-      _model->add(item);
+      _model->appendRow(item);
     }
   }
 

@@ -32,11 +32,15 @@ namespace HPX {
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelModel: public QStandardItemModel {
     Q_OBJECT
 
+    protected:
+      void appendRow(const QList<QStandardItem*>& items) = delete;
+      void appendColumn(const QList<QStandardItem*>& items) = delete;
+      inline void appendRow(QStandardItem* item) = delete;
+
     public:
       explicit StackedPanelModel(QObject* parent = nullptr);
 
-      void add(StackedPanelItem*);
-      int count() const;
+      void appendRow(StackedPanelItem*);
 
       QString name(int pos) const;
       QString name(const QModelIndex&) const;
@@ -45,7 +49,17 @@ namespace HPX {
       StackedPanelWidget* widget(const QModelIndex&) const;
 
       template<typename T>
-      int findRow(const T& filter, int role);
+      int findRow(const T& filter, int role) {
+        for (auto i = 0; i < rowCount(); i++) {
+          auto currentValue = data(index(i, role)).value<T>();
+
+          if (currentValue == filter) {
+            return i;
+          }
+        }
+
+        return -1;
+      }
 
       QModelIndex sibling(int row, int column, const QModelIndex& = QModelIndex()) const override;
   };

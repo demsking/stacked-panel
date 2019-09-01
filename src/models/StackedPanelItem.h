@@ -32,7 +32,8 @@ namespace HPX {
     public:
       enum Role {
         NameRole = Qt::UserRole + 9099,
-        WidgetRole
+        WidgetRole,
+        UserRole
       };
 
     public:
