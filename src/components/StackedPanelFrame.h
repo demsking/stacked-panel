@@ -57,6 +57,9 @@ namespace HPX {
     public slots:
       void setCurrentState(State);
 
+    protected slots:
+      void currentIndexChange(int);
+
     signals:
       void currentStateChanged(State);
   };

@@ -46,11 +46,6 @@ namespace HPX {
 
     _stackedWidget->setProperty("StackedPanelFrameContainer", true);
     _stackedWidget->setCurrentIndex(0);
-
-    connect(_stackedWidget, &QStackedWidget::currentChanged, this, [this](int index) {
-      emit currentStateChanged(static_cast<State>(index));
-      currentWidget()->setFocus();
-    });
   }
 
   void StackedPanelFrame::setStateWidget(State state, QWidget* widget) {
@@ -60,10 +55,16 @@ namespace HPX {
     widget->setProperty("StackedPanelFrameWidget", true);
     widget->setProperty("state", index);
 
+    disconnect(_stackedWidget, &QStackedWidget::currentChanged,
+              this, &StackedPanelFrame::currentIndexChange);
+
     _stackedWidget->insertWidget(index, widget);
     _stackedWidget->setCurrentIndex(index + 1);
     _stackedWidget->removeWidget(deadWidget);
     _stackedWidget->setCurrentIndex(index);
+
+    connect(_stackedWidget, &QStackedWidget::currentChanged,
+            this, &StackedPanelFrame::currentIndexChange);
   }
 
   QWidget* StackedPanelFrame::stateWidget(StackedPanelFrame::State state) const {
@@ -86,6 +87,12 @@ namespace HPX {
     auto index = static_cast<int>(state);
 
     _stackedWidget->setCurrentIndex(index);
+    currentWidget()->setFocus();
+  }
+
+  void StackedPanelFrame::currentIndexChange(int index) {
+    emit currentStateChanged(static_cast<State>(index));
+    currentWidget()->setFocus();
   }
 
   void StackedPanelFrame::setFocus() {
