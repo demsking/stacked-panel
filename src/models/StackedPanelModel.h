@@ -51,7 +51,7 @@ namespace HPX {
       template<typename T>
       int findRow(const T& filter, int role) {
         for (auto i = 0; i < rowCount(); i++) {
-          auto currentValue = data(index(i, role)).value<T>();
+          auto currentValue = data(index(i, 0), role).value<T>();
 
           if (currentValue == filter) {
             return i;
