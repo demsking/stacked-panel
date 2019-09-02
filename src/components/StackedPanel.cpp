@@ -109,6 +109,7 @@ namespace HPX {
 
   void StackedPanel::setCurrentIndex(int index) {
     _panelBar->setCurrentIndex(index);
+    currentWidget()->setFocus();
   }
 
   void StackedPanel::setCurrentWidget(StackedPanelWidget* widget) {
