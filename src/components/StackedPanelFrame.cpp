@@ -87,7 +87,6 @@ namespace HPX {
     auto index = static_cast<int>(state);
 
     _stackedWidget->setCurrentIndex(index);
-    currentWidget()->setFocus();
   }
 
   void StackedPanelFrame::currentIndexChange(int index) {
