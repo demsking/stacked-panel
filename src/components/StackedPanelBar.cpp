@@ -93,6 +93,10 @@ namespace HPX {
     return _panelCombobox->currentIndex();
   }
 
+  QComboBox* StackedPanelBar::widgetComboBox() const {
+    return _panelCombobox;
+  }
+
   void StackedPanelBar::addGlobalButton(QAbstractButton* button, Position position) {
     switch (position) {
       case Position::Left:

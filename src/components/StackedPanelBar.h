@@ -62,6 +62,7 @@ namespace HPX {
       void setModel(StackedPanelModel*);
 
       int currentIndex() const;
+      QComboBox* widgetComboBox() const;
 
       void addGlobalButton(QAbstractButton*, Position);
       void removeGlobalButton(QAbstractButton*);
