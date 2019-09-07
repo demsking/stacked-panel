@@ -92,6 +92,7 @@ namespace HPX {
 
   void StackedPanelFrame::currentIndexChange(int index) {
     emit currentStateChanged(static_cast<State>(index));
+    currentWidget()->setFocus();
   }
 
   void StackedPanelFrame::setFocus() {
