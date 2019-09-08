@@ -79,8 +79,11 @@ namespace HPX {
     _panelBar->setModel(model);
   }
 
-  StackedPanelWidget* StackedPanel::widget(int index) const {
-    return _model->widget(index);
+  StackedPanelWidget* StackedPanel::widget(int row) const {
+    auto index = _model->index(row, 0);
+    auto data = index.data(StackedPanelItem::WidgetRole);
+
+    return data.value<StackedPanelWidget*>();
   }
 
   StackedPanelWidget* StackedPanel::currentWidget() const {
