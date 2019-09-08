@@ -106,7 +106,7 @@ namespace HPX {
     _freezed = freezed;
 
     if (!freezed) {
-      emitFocusIntWidget(_currentIndex);
+      onCurrentIndexChange(_currentIndex);
     }
   }
 
@@ -145,19 +145,16 @@ namespace HPX {
   }
 
   void StackedPanel::onCurrentIndexChange(int index) {
-    // emit the focusOut signal to the previous widget
     if (!_freezed) {
-      emitFocusOutWidget(_currentIndex);
-    }
+      if (_stackedWidget->currentIndex() == _currentIndex) {
+        emitFocusOutWidget(_currentIndex);
+      }
 
-    // select the current stacked widget
-    _currentIndex = index;
-    _stackedWidget->setCurrentIndex(index);
-
-    // emit the focusIn signal to the current widget
-    if (!_freezed) {
+      _stackedWidget->setCurrentIndex(index);
       emitFocusIntWidget(index);
     }
+
+    _currentIndex = index;
   }
 
   void StackedPanel::onDataInsert(const QModelIndex& parent, int first, int last) {
