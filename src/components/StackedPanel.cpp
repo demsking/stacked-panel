@@ -222,6 +222,7 @@ namespace HPX {
         oldWidget->disconnect(this);
 
         _stackedWidget->insertWidget(pos, newWidget);
+        _stackedWidget->setCurrentIndex(pos + 1);
         _stackedWidget->removeWidget(oldWidget);
         _stackedWidget->setCurrentIndex(currentPos);
       }
