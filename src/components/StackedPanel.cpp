@@ -217,14 +217,12 @@ namespace HPX {
         const int pos = topLeft.row();
         QWidget* oldWidget = _stackedWidget->widget(pos);
         StackedPanelWidget* newWidget = _model->widget(topLeft);
-        const int currentPos = currentIndex();
 
         oldWidget->disconnect(this);
 
         _stackedWidget->insertWidget(pos, newWidget);
-        _stackedWidget->setCurrentIndex(pos + 1);
+        _stackedWidget->setCurrentWidget(newWidget);
         _stackedWidget->removeWidget(oldWidget);
-        _stackedWidget->setCurrentIndex(currentPos);
       }
     }
   }
