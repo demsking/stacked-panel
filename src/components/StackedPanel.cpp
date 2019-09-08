@@ -215,15 +215,14 @@ namespace HPX {
 
       if (roleEnum == StackedPanelItem::Role::WidgetRole) {
         const int pos = topLeft.row();
-        QWidget* widget = _stackedWidget->widget(pos);
+        QWidget* oldWidget = _stackedWidget->widget(pos);
         StackedPanelWidget* newWidget = _model->widget(topLeft);
         const int currentPos = currentIndex();
 
-        widget->disconnect(this);
+        oldWidget->disconnect(this);
 
         _stackedWidget->insertWidget(pos, newWidget);
-        _stackedWidget->setCurrentIndex(pos + 1);
-        _stackedWidget->removeWidget(widget);
+        _stackedWidget->removeWidget(oldWidget);
         _stackedWidget->setCurrentIndex(currentPos);
       }
     }
