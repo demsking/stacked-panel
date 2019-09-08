@@ -53,6 +53,7 @@ namespace HPX {
 
       StackedPanelWidget* widget(int index) const;
       StackedPanelWidget* currentWidget() const;
+      QList<StackedPanelWidget*> widgets() const;
 
       int indexOf(StackedPanelWidget*);
       int currentIndex() const;

@@ -26,6 +26,8 @@
 #include <QStackedWidget>
 #include <QCoreApplication>
 
+#include <list>
+
 #include "components/StackedPanelBar.h"
 #include "components/StackedPanelWidget.h"
 
@@ -80,14 +82,21 @@ namespace HPX {
   }
 
   StackedPanelWidget* StackedPanel::widget(int row) const {
-    auto index = _model->index(row, 0);
-    auto data = index.data(StackedPanelItem::WidgetRole);
-
-    return data.value<StackedPanelWidget*>();
+    return _model->widget(row);
   }
 
   StackedPanelWidget* StackedPanel::currentWidget() const {
     return widget(currentIndex());
+  }
+
+  QList<StackedPanelWidget*> StackedPanel::widgets() const {
+    QList<StackedPanelWidget*> list;
+
+    for (int i = 0; i < _model->rowCount(); i++) {
+      list << widget(i);
+    }
+
+    return list;
   }
 
   int StackedPanel::indexOf(StackedPanelWidget* widget) {
