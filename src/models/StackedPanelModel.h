@@ -25,7 +25,6 @@
 #include "global.h"  // NOLINT(build/include)
 
 namespace HPX {
-  class StackedPanelToolbox;
   class StackedPanelItem;
   class StackedPanelWidget;
 
@@ -38,7 +37,7 @@ namespace HPX {
       inline void appendRow(QStandardItem* item) = delete;
 
     public:
-      explicit StackedPanelModel(QObject* parent = nullptr);
+      using QStandardItemModel::QStandardItemModel;
 
       void appendRow(StackedPanelItem*);
 

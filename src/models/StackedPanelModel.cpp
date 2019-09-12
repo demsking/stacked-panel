@@ -23,13 +23,6 @@
 #include "models/StackedPanelItem.h"
 
 namespace HPX {
-  StackedPanelModel::StackedPanelModel(QObject* parent): QStandardItemModel(parent) {
-    setItemRoleNames({
-      { StackedPanelItem::NameRole, "name" },
-      { StackedPanelItem::WidgetRole, "widget" }
-    });
-  }
-
   void StackedPanelModel::appendRow(StackedPanelItem* item) {
     QStandardItemModel::appendRow(item);
   }
