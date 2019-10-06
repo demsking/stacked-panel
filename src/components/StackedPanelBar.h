@@ -24,7 +24,7 @@
 #include <QFrame>
 
 #include "global.h"  // NOLINT(build/include)
-#include "components/StackedPanelToolbox.h"
+#include "StackedPanelToolbox.h"
 
 class QWidget;
 class QComboBox;
