@@ -56,7 +56,7 @@ namespace HPX {
     return static_cast<QAbstractButton*>(widget);
   }
 
-  void StackedPanelToolbox::addWidget(QWidget* widget) {
+  void StackedPanelToolbox::addWidget(QWidget* widget, int stretch, Qt::Alignment alignment) {
     widget->setProperty("StackedPanelToolBoxWidget", true);
     widget->setEnabled(_enabled);
 
@@ -64,7 +64,7 @@ namespace HPX {
       widget->setProperty("StackedPanelToolBoxButton", true);
     }
 
-    _layout->insertWidget(0, widget);
+    _layout->insertWidget(0, widget, stretch, alignment);
   }
 
   void StackedPanelToolbox::removeWidget(QWidget* widget) {

@@ -42,7 +42,7 @@ namespace HPX {
       QSize minimumSizeHint() const override;
       QAbstractButton* takeAt(int index) const;
 
-      void addWidget(QWidget*);
+      void addWidget(QWidget*, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
       void removeWidget(QWidget*);
 
       void enable();

@@ -97,14 +97,14 @@ namespace HPX {
     return _panelCombobox;
   }
 
-  void StackedPanelBar::addGlobalWidget(QWidget* widget, Position position) {
+  void StackedPanelBar::addGlobalWidget(QWidget* widget, Position position, int stretch, Qt::Alignment alignment) {
     switch (position) {
       case Position::Left:
-        _globalLeftToolbox->addWidget(widget);
+        _globalLeftToolbox->addWidget(widget, stretch, alignment);
         break;
 
       case Position::Right:
-        _globalRightToolbox->addWidget(widget);
+        _globalRightToolbox->addWidget(widget, stretch, alignment);
         break;
     }
   }

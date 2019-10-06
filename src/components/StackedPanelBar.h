@@ -64,7 +64,7 @@ namespace HPX {
       int currentIndex() const;
       QComboBox* widgetComboBox() const;
 
-      void addGlobalWidget(QWidget*, Position);
+      void addGlobalWidget(QWidget*, Position, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
       void removeGlobalWidget(QWidget*);
 
     public slots:
