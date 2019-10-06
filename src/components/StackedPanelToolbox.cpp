@@ -56,15 +56,19 @@ namespace HPX {
     return static_cast<QAbstractButton*>(widget);
   }
 
-  void StackedPanelToolbox::addButton(QAbstractButton* button) {
-    button->setProperty("StackedPanelToolBoxButton", true);
-    button->setEnabled(_enabled);
+  void StackedPanelToolbox::addWidget(QWidget* widget) {
+    widget->setProperty("StackedPanelToolBoxWidget", true);
+    widget->setEnabled(_enabled);
 
-    _layout->insertWidget(0, button);
+    if (dynamic_cast<QAbstractButton*>(widget)) {
+      widget->setProperty("StackedPanelToolBoxButton", true);
+    }
+
+    _layout->insertWidget(0, widget);
   }
 
-  void StackedPanelToolbox::removeButton(QAbstractButton* button) {
-    _layout->removeWidget(button);
+  void StackedPanelToolbox::removeWidget(QWidget* widget) {
+    _layout->removeWidget(widget);
   }
 
   void StackedPanelToolbox::enable() {

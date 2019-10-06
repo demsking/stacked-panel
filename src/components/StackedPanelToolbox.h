@@ -42,8 +42,8 @@ namespace HPX {
       QSize minimumSizeHint() const override;
       QAbstractButton* takeAt(int index) const;
 
-      void addButton(QAbstractButton*);
-      void removeButton(QAbstractButton*);
+      void addWidget(QWidget*);
+      void removeWidget(QWidget*);
 
       void enable();
       void disable();

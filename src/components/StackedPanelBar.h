@@ -64,8 +64,8 @@ namespace HPX {
       int currentIndex() const;
       QComboBox* widgetComboBox() const;
 
-      void addGlobalButton(QAbstractButton*, Position);
-      void removeGlobalButton(QAbstractButton*);
+      void addGlobalWidget(QWidget*, Position);
+      void removeGlobalWidget(QWidget*);
 
     public slots:
       void setCurrentIndex(int index);

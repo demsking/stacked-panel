@@ -80,8 +80,8 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
   _panel->setModel(_model);
   _panel->setFreezed(true);
 
-  _panel->panelBar()->addGlobalButton(new QPushButton("GL"), HPX::StackedPanelBar::Position::Left);
-  _panel->panelBar()->addGlobalButton(new QPushButton("GR"), HPX::StackedPanelBar::Position::Right);
+  _panel->panelBar()->addGlobalWidget(new QPushButton("GL"), HPX::StackedPanelBar::Position::Left);
+  _panel->panelBar()->addGlobalWidget(new QPushButton("GR"), HPX::StackedPanelBar::Position::Right);
 
   setCentralWidget(_panel);
 
@@ -97,7 +97,7 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
 
       if (i) {
         for (int j = 0; j < i; j++) {
-          toolbox->addButton(new QPushButton(QString("B%1").arg(j)));
+          toolbox->addWidget(new QPushButton(QString("B%1").arg(j)));
         }
       }
 
@@ -144,7 +144,7 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
 
       if (i) {
         for (int j = 0; j < i; j++) {
-          toolbox->addButton(new QPushButton(QString("B%1").arg(j)));
+          toolbox->addWidget(new QPushButton(QString("B%1").arg(j)));
         }
       }
 

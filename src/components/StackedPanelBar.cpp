@@ -97,21 +97,21 @@ namespace HPX {
     return _panelCombobox;
   }
 
-  void StackedPanelBar::addGlobalButton(QAbstractButton* button, Position position) {
+  void StackedPanelBar::addGlobalWidget(QWidget* widget, Position position) {
     switch (position) {
       case Position::Left:
-        _globalLeftToolbox->addButton(button);
+        _globalLeftToolbox->addWidget(widget);
         break;
 
       case Position::Right:
-        _globalRightToolbox->addButton(button);
+        _globalRightToolbox->addWidget(widget);
         break;
     }
   }
 
-  void StackedPanelBar::removeGlobalButton(QAbstractButton* button) {
-    _globalLeftToolbox->removeButton(button);
-    _globalRightToolbox->removeButton(button);
+  void StackedPanelBar::removeGlobalWidget(QWidget* widget) {
+    _globalLeftToolbox->removeWidget(widget);
+    _globalRightToolbox->removeWidget(widget);
   }
 
   void StackedPanelBar::setCurrentIndex(int index) {
