@@ -24,12 +24,11 @@
 #include <QFrame>
 
 #include "global.h"  // NOLINT(build/include)
+#include "components/StackedPanelToolbox.h"
 
 class QWidget;
 class QComboBox;
-class QHBoxLayout;
 class QStackedWidget;
-class QAbstractButton;
 
 namespace HPX {
   class StackedPanelModel;
@@ -37,35 +36,23 @@ namespace HPX {
   class StackedPanelBarButton;
   class StackedPanelToolbox;
 
-  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelBar: public QFrame {
+  class LIBHPXSTACKEDPANEL_EXPORT StackedPanelBar: public StackedPanelToolbox {
     Q_OBJECT
 
-    QHBoxLayout* _layout = nullptr;
     QComboBox* _panelCombobox = nullptr;
     QStackedWidget* _stackedToolbox = nullptr;
-
-    StackedPanelToolbox* _globalLeftToolbox = nullptr;
-    StackedPanelToolbox* _globalRightToolbox = nullptr;
 
     StackedPanelModel* _model = nullptr;
 
     public:
-      enum class Position {
-        Left,
-        Right
-      };
-
-    public:
       explicit StackedPanelBar(QWidget* parent = nullptr);
+      ~StackedPanelBar();
 
       StackedPanelModel* model() const;
       void setModel(StackedPanelModel*);
 
       int currentIndex() const;
       QComboBox* widgetComboBox() const;
-
-      void addGlobalWidget(QWidget*, Position, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
-      void removeGlobalWidget(QWidget*);
 
     public slots:
       void setCurrentIndex(int index);

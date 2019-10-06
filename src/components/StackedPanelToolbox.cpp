@@ -38,6 +38,10 @@ namespace HPX {
     setFocusPolicy(Qt::FocusPolicy::NoFocus);
   }
 
+  StackedPanelToolbox::~StackedPanelToolbox() {
+    delete _layout;
+  }
+
   int StackedPanelToolbox::count() const {
     return _layout->count();
   }
@@ -50,13 +54,11 @@ namespace HPX {
     return QSize(count() * 35, height());
   }
 
-  QAbstractButton* StackedPanelToolbox::takeAt(int index) const {
-    auto widget = _layout->takeAt(index)->widget();
-
-    return static_cast<QAbstractButton*>(widget);
+  QWidget* StackedPanelToolbox::takeAt(int index) const {
+    return _layout->takeAt(index)->widget();
   }
 
-  void StackedPanelToolbox::addWidget(QWidget* widget, int stretch, Qt::Alignment alignment) {
+  void StackedPanelToolbox::insertWidget(int index, QWidget* widget, int stretch) {
     widget->setProperty("StackedPanelToolBoxWidget", true);
     widget->setEnabled(_enabled);
 
@@ -64,7 +66,11 @@ namespace HPX {
       widget->setProperty("StackedPanelToolBoxButton", true);
     }
 
-    _layout->insertWidget(0, widget, stretch, alignment);
+    _layout->insertWidget(index, widget, stretch);
+  }
+
+  void StackedPanelToolbox::addWidget(QWidget* widget, int stretch) {
+    insertWidget(0, widget, stretch);
   }
 
   void StackedPanelToolbox::removeWidget(QWidget* widget) {

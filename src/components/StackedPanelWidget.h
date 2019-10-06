@@ -30,7 +30,7 @@ namespace HPX {
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelWidget: public QWidget {
     Q_OBJECT
 
-    StackedPanelToolbox* _toolbox;
+    StackedPanelToolbox* _toolbox = nullptr;
     bool _active = false;
 
     protected:
@@ -38,10 +38,10 @@ namespace HPX {
 
     public:
       explicit StackedPanelWidget(QWidget* parent = nullptr);
-      virtual ~StackedPanelWidget() = default;
+      virtual ~StackedPanelWidget();
 
       bool isActive() const;
-      StackedPanelToolbox* toolbox();
+      StackedPanelToolbox* toolbox() const;
 
       virtual void setFocus();
 

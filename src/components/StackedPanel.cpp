@@ -58,6 +58,12 @@ namespace HPX {
             this, &StackedPanel::onCurrentIndexChange);
   }
 
+  StackedPanel::~StackedPanel() {
+    delete _stackedWidget;
+    delete _panelBar;
+    delete _mainLayout;
+  }
+
   StackedPanelBar* StackedPanel::panelBar() const {
     return _panelBar;
   }

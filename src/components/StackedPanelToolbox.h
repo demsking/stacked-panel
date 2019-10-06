@@ -25,7 +25,6 @@
 
 class QWidget;
 class QHBoxLayout;
-class QAbstractButton;
 
 namespace HPX {
   class LIBHPXSTACKEDPANEL_EXPORT StackedPanelToolbox: public QFrame {
@@ -36,13 +35,15 @@ namespace HPX {
 
     public:
       explicit StackedPanelToolbox(QWidget* parent = nullptr);
+      ~StackedPanelToolbox() override;
 
       int count() const;
       QSize sizeHint() const override;
       QSize minimumSizeHint() const override;
-      QAbstractButton* takeAt(int index) const;
+      QWidget* takeAt(int index) const;
 
-      void addWidget(QWidget*, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
+      void insertWidget(int index, QWidget*, int stretch = 0);
+      void addWidget(QWidget*, int stretch = 0);
       void removeWidget(QWidget*);
 
       void enable();

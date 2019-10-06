@@ -22,6 +22,7 @@
 #include <QFile>
 #include <QLabel>
 #include <QLineEdit>
+#include <QHBoxLayout>
 #include <QPushButton>
 #include <QFileSystemWatcher>
 
@@ -72,7 +73,7 @@ class PanelFrame: public HPX::StackedPanelFrame {
 
 MainWindow::MainWindow(const char* theme): QMainWindow() {
   setWindowTitle("HPX Stacked Panel Demo");
-  setGeometry(892, 342, 250, 610);
+  setGeometry(892, 342, 400, 610);
 
   _panel = new HPX::StackedPanel(this);
   _model = new HPX::StackedPanelModel(this);
@@ -80,8 +81,8 @@ MainWindow::MainWindow(const char* theme): QMainWindow() {
   _panel->setModel(_model);
   _panel->setFreezed(true);
 
-  _panel->panelBar()->addGlobalWidget(new QPushButton("GL"), HPX::StackedPanelBar::Position::Left);
-  _panel->panelBar()->addGlobalWidget(new QPushButton("GR"), HPX::StackedPanelBar::Position::Right);
+  _panel->panelBar()->insertWidget(0, new QPushButton("GL"));
+  _panel->panelBar()->insertWidget(-1, new QPushButton("GR"));
 
   setCentralWidget(_panel);
 

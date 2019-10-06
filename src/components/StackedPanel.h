@@ -45,6 +45,7 @@ namespace HPX {
 
     public:
       explicit StackedPanel(QWidget* parent = nullptr);
+      ~StackedPanel();
 
       StackedPanelBar* panelBar() const;
 

@@ -42,11 +42,15 @@ namespace HPX {
   StackedPanelWidget::StackedPanelWidget(QWidget* parent): StackedPanelWidget(false, parent) {
   }
 
+  StackedPanelWidget::~StackedPanelWidget() {
+    delete _toolbox;
+  }
+
   bool StackedPanelWidget::isActive() const {
     return _active;
   }
 
-  StackedPanelToolbox* StackedPanelWidget::toolbox() {
+  StackedPanelToolbox* StackedPanelWidget::toolbox() const {
     return _toolbox;
   }
 

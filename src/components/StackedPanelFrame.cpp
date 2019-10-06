@@ -48,6 +48,11 @@ namespace HPX {
     _stackedWidget->setCurrentIndex(0);
   }
 
+  StackedPanelFrame::~StackedPanelFrame() {
+    delete _stackedWidget;
+    delete _layout;
+  }
+
   void StackedPanelFrame::setStateWidget(State state, QWidget* widget) {
     auto index = static_cast<int>(state);
     auto deadWidget = _stackedWidget->widget(index);

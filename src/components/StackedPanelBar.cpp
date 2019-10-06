@@ -19,14 +19,11 @@
 
 #include "components/StackedPanelBar.h"
 
-#include <QTimer>
 #include <QWidget>
 #include <QComboBox>
-#include <QHBoxLayout>
 #include <QStackedWidget>
 
 #include "components/StackedPanelFrame.h"
-#include "components/StackedPanelToolbox.h"
 
 #include "models/StackedPanelItem.h"
 #include "models/StackedPanelModel.h"
@@ -34,30 +31,20 @@
 static const char* PROPERTY_TOOLBOX_CONTAINER = "StackedPanelBarToolboxContainer";
 
 namespace HPX {
-  StackedPanelBar::StackedPanelBar(QWidget* parent): QFrame(parent) {
+  StackedPanelBar::StackedPanelBar(QWidget* parent): StackedPanelToolbox(parent) {
     setFixedHeight(33);
     setProperty("StackedPanelBar", true);
     setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
-    _layout = new QHBoxLayout(this);
     _panelCombobox = new QComboBox(this);
     _stackedToolbox = new QStackedWidget(this);
-
-    _globalLeftToolbox = new StackedPanelToolbox(this);
-    _globalRightToolbox = new StackedPanelToolbox(this);
 
     _panelCombobox->setProperty("StackedPanelBarCombobox", true);
     _panelCombobox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     _stackedToolbox->setProperty(PROPERTY_TOOLBOX_CONTAINER, true);
 
-    _layout->setSpacing(0);
-    _layout->setMargin(0);
-    _layout->setContentsMargins(QMargins());
-
-    _layout->addWidget(_globalLeftToolbox, 0);
-    _layout->addWidget(_panelCombobox, 1);
-    _layout->addWidget(_stackedToolbox, 0);
-    _layout->addWidget(_globalRightToolbox, 0);
+    addWidget(_stackedToolbox, 1);
+    addWidget(_panelCombobox, 2);
 
     connect(_panelCombobox, qOverload<int>(&QComboBox::currentIndexChanged),
             this, &StackedPanelBar::setCurrentIndex);
@@ -70,6 +57,11 @@ namespace HPX {
 
     connect(_panelCombobox, qOverload<int>(&QComboBox::currentIndexChanged),
             this, &StackedPanelBar::updateStackedToolboxSize);
+  }
+
+  StackedPanelBar::~StackedPanelBar() {
+    delete _panelCombobox;
+    delete _stackedToolbox;
   }
 
   StackedPanelModel* StackedPanelBar::model() const {
@@ -95,23 +87,6 @@ namespace HPX {
 
   QComboBox* StackedPanelBar::widgetComboBox() const {
     return _panelCombobox;
-  }
-
-  void StackedPanelBar::addGlobalWidget(QWidget* widget, Position position, int stretch, Qt::Alignment alignment) {
-    switch (position) {
-      case Position::Left:
-        _globalLeftToolbox->addWidget(widget, stretch, alignment);
-        break;
-
-      case Position::Right:
-        _globalRightToolbox->addWidget(widget, stretch, alignment);
-        break;
-    }
-  }
-
-  void StackedPanelBar::removeGlobalWidget(QWidget* widget) {
-    _globalLeftToolbox->removeWidget(widget);
-    _globalRightToolbox->removeWidget(widget);
   }
 
   void StackedPanelBar::setCurrentIndex(int index) {
