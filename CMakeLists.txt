@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 
 project(HPXStackedPanel VERSION 1.0.0
                         DESCRIPTION "A fully stylized StackedWidget implementation"
+                        HOMEPAGE_URL "https://gitlab.com/demsking/stacked-panel"
                         LANGUAGES CXX)
 
 set(AUTHOR "Sébastien Demanou")
 set(EMAIL "demsking@gmail.com")
-set(WEBSITE "https://gitlab.com/demsking/stacked-panel")
 set(BUG_ADDRESS "https://gitlab.com/demsking/stacked-panel/issues")
 
 set(ECM_VERSION 1.3.0)
@@ -14,7 +14,7 @@ set(QT_MIN_VERSION 5.9.0)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
-set(DIST_DIR ${PROJECT_SOURCE_DIR}/dist)
+set(DIST_DIR "${PROJECT_SOURCE_DIR}/dist")
 set(INSTALL_INCLUDE_DIR "include/hpx/stacked-panel")
 
 find_program(STYLUS_BIN NAMES stylus)
@@ -26,6 +26,15 @@ find_package(packagekitqt5 REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+set(CPPCHECK ON)
+set(USE_CCACHE ON)
+set(CLANG_TIDY ON)
+set(ENABLE_ALL_WARNINGS ON)
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+  set(USE_SANITIZER "Leak")
+endif()
 
 include(KDEInstallDirs)
 
@@ -43,47 +52,45 @@ target_include_directories(${PROJECT_NAME} PUBLIC "include")
 target_link_directories(${PROJECT_NAME} PUBLIC "${CMAKE_BINARY_DIR}/lib")
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Widgets)
 
-# Set target properties
-set_target_properties(${PROJECT_NAME}
-  PROPERTIES
-    "LIB_NAME" "${PROJECT_NAME}"
-    "INCLUDE_DIR" "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDE_DIR}"
-)
-
 #
 ## CMake Modules
 include("cmake/InstallModule.cmake")
 
 load_cmake_module("StableCoder")
-load_cmake_module("CompilerInfo")
-load_cmake_module("ProcessorInfo")
 load_cmake_module("ConfigureInstaller")
-load_cmake_module("CPPLINT")
 
-install_stablecoder_script("tools")
 install_stablecoder_script("c++-standards")
 install_stablecoder_script("compiler-options")
 install_stablecoder_script("sanitizers")
 
 cxx_14()
-compiler_info()
-processor_info()
 configure_install()
 
-cppcheck(
-  --quiet --force --verbose
-  --enable=warning,performance,portability,information,missingInclude
-  --suppress=missingIncludeSystem
-)
+if(NOT PARENT_DIRECTORY)
+  load_cmake_module("CompilerInfo")
+  load_cmake_module("ProcessorInfo")
+  load_cmake_module("CPPLINT")
 
-clang_tidy(
-  -format-style=file
-  -checks=*
-  -warnings-as-errors=*
-  -header-filter='${CMAKE_SOURCE_DIR}/src/*'
-)
+  install_stablecoder_script("tools")
 
-add_cpplint(${PROJECT_NAME} --counting=detailed)
+  compiler_info()
+  processor_info()
+
+  cppcheck(
+    --quiet --force --verbose
+    --enable=warning,performance,portability,information,missingInclude
+    --suppress=missingIncludeSystem
+  )
+
+  clang_tidy(
+    -format-style=file
+    -checks=*
+    -warnings-as-errors=*
+    -header-filter='${CMAKE_SOURCE_DIR}/src/*'
+  )
+
+  add_cpplint(${PROJECT_NAME} --counting=detailed)
+endif()
 
 # Install library
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
@@ -104,7 +111,7 @@ file(GLOB_RECURSE HEADERS
 install(FILES ${HEADERS} DESTINATION ${INSTALL_INCLUDE_DIR})
 
 # Package
-install(FILES HPXStackedPanelConfig.cmake DESTINATION lib/HPXStackedPanel)
+install(FILES HPXStackedPanelConfig.cmake DESTINATION "lib/${PROJECT_NAME}")
 
 # Theme task
 set(THEME_DIR "${CMAKE_BINARY_DIR}/themes")
