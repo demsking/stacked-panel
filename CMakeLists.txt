@@ -38,10 +38,22 @@ endif()
 
 include(KDEInstallDirs)
 
-#
-## Target
+# ---- Include guards ----
+
+if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
+  message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.")
+endif()
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
+message(STATUS "Build type set to ${CMAKE_BUILD_TYPE}")
+
 add_definitions(-DHPX_LIBRARY)
 
+#
+## Target
 file(GLOB_RECURSE SOURCES src/*.h src/*.cpp)
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
