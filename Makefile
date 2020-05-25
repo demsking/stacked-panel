@@ -1,14 +1,3 @@
-ENV ?= release
-DEST ?= build/${ENV}
-DEST_THEMES ?= ${DEST}/themes
-
-THEME_FILES ?= $(wildcard src/themes/*.styl) $(wildcard src/themes/*.svg)
-THEME_FILES := $(filter-out src/themes/mixins.styl, ${THEME_FILES})
-THEME_FILES := ${THEME_FILES:src/themes/%.styl=${DEST_THEMES}/%.css}
-THEME_FILES := ${THEME_FILES:src/themes/%.svg=${DEST_THEMES}/%.svg}
-
-$(shell mkdir -p ${DEST_THEMES})
-
 # Generate the AUTHORS file
 authors:
 	git log --format="%aN <%ae>"                 	\
@@ -45,14 +34,3 @@ cppcheck-htmlreport: cppcheck-report
     --source-dir=.
 
 lint: cpplint cppcheck
-
-${DEST_THEMES}/%.css: src/themes/%.styl src/themes/mixins.styl
-	@stylus $< -o $@
-
-${DEST_THEMES}/%.svg: src/themes/%.svg
-	cp $< $@
-
-themes: ${THEME_FILES}
-
-clean:
-	rm -rf ${THEME_FILES}

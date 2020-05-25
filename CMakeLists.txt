@@ -17,7 +17,7 @@ set(DIST_DIR ${PROJECT_SOURCE_DIR}/dist)
 
 add_definitions(-DHPX_LIBRARY)
 
-find_program(MAKE NAMES make)
+find_program(STYLUS_BIN NAMES stylus)
 find_package(ECM 1.3.0 REQUIRED NO_MODULE)
 
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -75,13 +75,21 @@ install(FILES ${HEADERS} DESTINATION include/hpx-stacked-panel)
 install(FILES HPXStackedPanelConfig.cmake DESTINATION lib/HPXStackedPanel)
 
 # Theme task
-if(CMAKE_BUILD_TYPE)
-  string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+set(THEME_DIR "${CMAKE_BINARY_DIR}/themes")
+
+file(GLOB_RECURSE THEME_IMAGES src/*.svg)
+
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+  set(STYLUS_ARGS --compress --sourcemap)
 endif()
 
 add_custom_target(themes
-  COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/themes
-  COMMAND ${MAKE} -C ${PROJECT_SOURCE_DIR} themes ENV=${BUILD_TYPE}
+  COMMAND ${CMAKE_COMMAND} -E make_directory ${THEME_DIR}
+  COMMAND ${STYLUS_BIN} ${STYLUS_ARGS} src/themes -o ${THEME_DIR}
+  COMMAND ${CMAKE_COMMAND} -E copy ${THEME_IMAGES} ${THEME_DIR}
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  COMMENT "Generating themes"
+  VERBATIM
 )
 
 add_dependencies(${TARGET} themes)
