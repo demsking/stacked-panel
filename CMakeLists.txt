@@ -66,7 +66,7 @@ install_stablecoder_script("sanitizers")
 cxx_14()
 configure_install()
 
-if(NOT PARENT_DIRECTORY)
+if(NOT DISABLE_LINTERS)
   load_cmake_module("CompilerInfo")
   load_cmake_module("ProcessorInfo")
   load_cmake_module("CPPLINT")
@@ -125,7 +125,7 @@ if(CMAKE_BUILD_TYPE MATCHES "Release")
 endif()
 
 add_custom_target(themes
-  COMMENT "Generating themes"
+  COMMENT "Generating ${PROJECT_NAME} themes"
   COMMAND ${CMAKE_COMMAND} -E make_directory ${THEME_DIR}
   COMMAND ${STYLUS_BIN} ${STYLUS_ARGS} ${THEME_STYLES} -o ${THEME_DIR}
   COMMAND ${CMAKE_COMMAND} -E copy ${THEME_IMAGES} ${THEME_DIR}
