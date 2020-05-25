@@ -43,11 +43,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC "include")
 target_link_directories(${PROJECT_NAME} PUBLIC "${CMAKE_BINARY_DIR}/lib")
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Widgets)
 
-# Export vars
-if(PARENT_DIRECTORY)
-  set(HPX_STACKEDPANEL_INCLUDE_PATH ${INSTALL_INCLUDE_DIR} PARENT_SCOPE)
-  set(HPX_STACKEDPANEL_LIB_NAME ${PROJECT_NAME} PARENT_SCOPE)
-endif()
+# Set target properties
+set_target_properties(${PROJECT_NAME}
+  PROPERTIES
+    "LIB_NAME" "${PROJECT_NAME}"
+    "INCLUDE_DIR" "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDE_DIR}"
+)
 
 #
 ## CMake Modules
