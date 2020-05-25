@@ -81,3 +81,4 @@ dist/
 
 # CodeLine
 .codeline
+.modules/

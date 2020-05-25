@@ -53,6 +53,41 @@ target_link_libraries(${TARGET}
   Qt5::Widgets
 )
 
+#
+## CMake Modules
+include("cmake/InstallModule.cmake")
+
+load_cmake_module("StableCoder")
+load_cmake_module("CompilerInfo")
+load_cmake_module("ProcessorInfo")
+load_cmake_module("ConfigureInstaller")
+load_cmake_module("CPPLINT")
+
+install_stablecoder_script("tools")
+install_stablecoder_script("c++-standards")
+install_stablecoder_script("compiler-options")
+install_stablecoder_script("sanitizers")
+
+cxx_14()
+
+cppcheck(
+  --quiet --force --verbose
+  --enable=warning,performance,portability,information,missingInclude
+  --suppress=missingIncludeSystem
+)
+
+clang_tidy(
+  -format-style=file
+  -checks=*
+  -warnings-as-errors=*
+  -header-filter='${CMAKE_SOURCE_DIR}/src/*'
+)
+
+compiler_info()
+processor_info()
+configure_install()
+add_cpplint(${TARGET} --counting=detailed)
+
 # Install library
 install(TARGETS ${TARGET} DESTINATION lib)
 
