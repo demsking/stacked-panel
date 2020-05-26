@@ -12,7 +12,7 @@ CMake Binary=/snap/bin/cmake
 CMake Executable=/snap/bin/cmake
 Environment Profile=
 Extra Arguments=
-Install Directory=
+Install Directory=/usr
 Runtime=Host System
 
 [CMake][CMake Build Directory 1]
@@ -242,6 +242,28 @@ targets=1
 inclusive=1
 pattern=.prettierrc*
 targets=1
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=demo
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Configured from ProjectItem=StackedPanel,demo
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/demsking/Workspace/projects/StackedPanel
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=StackedPanel,demo
+Use External Terminal=false
+Working Directory=file:///home/demsking/Workspace/projects/StackedPanel/build/debug
+isExecutable=false
 
 [Project]
 VersionControlSupport=kdevgit

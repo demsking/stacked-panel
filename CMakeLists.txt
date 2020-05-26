@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 
-project(HPXStackedPanel VERSION 1.0.0
-                        DESCRIPTION "A fully stylized StackedWidget implementation"
-                        HOMEPAGE_URL "https://gitlab.com/demsking/stacked-panel"
-                        LANGUAGES CXX)
+project(StackedPanel VERSION 1.0.0
+                     DESCRIPTION "A fully stylized StackedWidget implementation"
+                     HOMEPAGE_URL "https://gitlab.com/demsking/stacked-panel"
+                     LANGUAGES CXX)
 
 set(AUTHOR "Sébastien Demanou")
 set(EMAIL "demsking@gmail.com")
@@ -31,6 +31,7 @@ set(CPPCHECK ON)
 set(USE_CCACHE ON)
 set(CLANG_TIDY ON)
 set(ENABLE_ALL_WARNINGS ON)
+option(BUILD_DEMO OFF)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
   set(USE_SANITIZER "Leak")
@@ -57,6 +58,7 @@ add_definitions(-DHPX_LIBRARY)
 file(GLOB_RECURSE SOURCES src/*.h src/*.cpp)
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
+add_library(HPX::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME} PUBLIC "src")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
@@ -94,12 +96,12 @@ if(NOT DISABLE_LINTERS)
     --suppress=missingIncludeSystem
   )
 
-  clang_tidy(
-    -format-style=file
-    -checks=*
-    -warnings-as-errors=*
-    -header-filter='${CMAKE_SOURCE_DIR}/src/*'
-  )
+#   clang_tidy(
+#     -format-style=google
+#     -checks=*
+#     -warnings-as-errors=*
+#     -header-filter='${CMAKE_SOURCE_DIR}/src/*'
+#   )
 
   add_cpplint(${PROJECT_NAME} --counting=detailed)
 endif()
@@ -149,7 +151,7 @@ add_dependencies(${PROJECT_NAME} themes)
 
 # Packaging task
 add_custom_target(pack
-  COMMENT "Packaging"
+  COMMENT "Packaging ${PROJECT_NAME}"
   DEPENDS ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
   COMMAND ${CMAKE_COMMAND} -E remove_directory ${DIST_DIR}
   COMMAND ${CMAKE_COMMAND} -E make_directory ${DIST_DIR} ${DIST_DIR}/lib ${DIST_DIR}/include
@@ -164,3 +166,26 @@ add_custom_target(pack
 add_dependencies(pack themes ${PROJECT_NAME})
 
 install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
+
+if(BUILD_DEMO)
+  find_package(KF5Config REQUIRED)
+  find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS IconThemes Config)
+
+  file(GLOB_RECURSE DEMO_SOURCES demo/*.h demo/*.cpp)
+  add_executable(demo ${DEMO_SOURCES})
+
+  target_include_directories(demo PUBLIC demo)
+  target_link_libraries(demo LINK_PUBLIC
+    Qt5::Core
+    Qt5::Widgets
+    KF5::IconThemes
+    KF5::ConfigCore
+    HPX::StackedPanel
+  )
+
+  add_custom_target(copylib
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/demo ${CMAKE_BINARY_DIR}
+  )
+
+  add_dependencies(demo copylib)
+endif()
