@@ -96,12 +96,12 @@ if(NOT DISABLE_LINTERS)
     --suppress=missingIncludeSystem
   )
 
-#   clang_tidy(
-#     -format-style=google
-#     -checks=*
-#     -warnings-as-errors=*
-#     -header-filter='${CMAKE_SOURCE_DIR}/src/*'
-#   )
+  clang_tidy(
+    -format-style=google
+    -checks=*
+    -warnings-as-errors=*
+    -header-filter='${CMAKE_SOURCE_DIR}/src/*'
+  )
 
   add_cpplint(${PROJECT_NAME} --counting=detailed)
 endif()
