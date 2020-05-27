@@ -183,9 +183,13 @@ if(BUILD_DEMO)
     HPX::StackedPanel
   )
 
-  add_custom_target(copylib
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/demo ${CMAKE_BINARY_DIR}
-  )
+  set(DEMO_BIN "${CMAKE_BINARY_DIR}/bin/demo")
 
-  add_dependencies(demo copylib)
+  if(EXISTS ${DEMO_BIN})
+    add_custom_target(copylib
+      COMMAND ${CMAKE_COMMAND} -E copy ${DEMO_BIN} ${CMAKE_BINARY_DIR}
+    )
+
+    add_dependencies(demo ${PROJECT_NAME} copylib)
+  endif()
 endif()
